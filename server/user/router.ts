@@ -90,6 +90,8 @@ router.delete(
  *
  * @param {string} username - username of user
  * @param {string} password - user's password
+ * @param {string} name - user's name
+ * @param {string} isStudent - if the user is a student or not
  * @return {UserResponse} - The created user
  * @throws {403} - If there is a user already logged in
  * @throws {409} - If username is already taken
@@ -101,11 +103,12 @@ router.post(
   [
     userValidator.isUserLoggedOut,
     userValidator.isValidUsername,
+    userValidator.isValidName,
     userValidator.isUsernameNotAlreadyInUse,
     userValidator.isValidPassword
   ],
   async (req: Request, res: Response) => {
-    const user = await UserCollection.addOne(req.body.username, req.body.password);
+    const user = await UserCollection.addOne(req.body.username, req.body.name, req.body.password, req.body.isStudent);
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: `Your account was created successfully. You have been logged in as ${user.username}`,
@@ -121,6 +124,7 @@ router.post(
  *
  * @param {string} username - The user's new username
  * @param {string} password - The user's new password
+ * @param {string} name - user's name
  * @return {UserResponse} - The updated user
  * @throws {403} - If user is not logged in
  * @throws {409} - If username already taken
@@ -131,6 +135,7 @@ router.patch(
   [
     userValidator.isUserLoggedIn,
     userValidator.isValidUsername,
+    userValidator.isValidName,
     userValidator.isUsernameNotAlreadyInUse,
     userValidator.isValidPassword
   ],

@@ -38,6 +38,21 @@ const isValidUsername = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
+ * Checks if a name in req.body is valid, that is, it matches the name regex
+ */
+ const isValidName = (req: Request, res: Response, next: NextFunction) => {
+  const nameRegex = /^\w+$/i;
+  if (!nameRegex.test(req.body.name)) {
+    res.status(400).json({
+      error: 'Name must be a nonempty alphanumeric string.'
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
  * Checks if a password in req.body is valid, that is, at 6-50 characters long without any spaces
  */
 const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
@@ -144,6 +159,34 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   next();
 };
 
+ /**
+ * Checks if a user is an instructor
+ */
+const isInstructor = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.query.username) {
+    res.status(400).json({
+      error: 'Provided username must be nonempty.'
+    });
+    return;
+  }
+
+  const user = await UserCollection.findOneByUsername(req.query.username as string);
+  if (!user) {
+    res.status(404).json({
+      error: `A user with username ${req.query.username as string} does not exist.`
+    });
+    return;
+  }
+
+  if (user.isStudent) {
+    res.status(403).json({
+      error: `The user with username ${req.query.username as string} is not an instructor and doesn't have permissions to complete this action.`
+    })
+  }
+
+  next();
+};
+
 export {
   isCurrentSessionUserExists,
   isUserLoggedIn,
@@ -152,5 +195,7 @@ export {
   isAccountExists,
   isAuthorExists,
   isValidUsername,
-  isValidPassword
+  isValidName,
+  isValidPassword,
+  isInstructor
 };
