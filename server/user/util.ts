@@ -5,8 +5,10 @@ import type {User} from './model';
 // Update this if you add a property to the User type!
 type UserResponse = {
   _id: string;
+  name: string;
   username: string;
   dateJoined: string;
+  isStudent: boolean;
 };
 
 /**

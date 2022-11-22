@@ -9,15 +9,22 @@ import {Schema, model} from 'mongoose';
 // Type definition for User on the backend
 export type User = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
+  name: string;
   username: string;
   password: string;
   dateJoined: Date;
+  isStudent: boolean;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
 // Users stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
 const UserSchema = new Schema({
+  // The user's name
+  name: {
+    type: String,
+    required: true
+  },
   // The user's username
   username: {
     type: String,
@@ -31,6 +38,11 @@ const UserSchema = new Schema({
   // The date the user joined
   dateJoined: {
     type: Date,
+    required: true
+  },
+  // If the user is a student or not
+  isStudent: {
+    type: Boolean,
     required: true
   }
 });
