@@ -12,6 +12,21 @@
         :key="field.id"
       >
         <label :for="field.id">{{ field.label }}:</label>
+        <div
+          v-if="field.id === 'isStudent'">
+          <button
+            class="button"
+            type="button"
+            @click="toggle"
+            :class="[isStudent ? 'active' : '']"
+          >Student</button>
+          <button
+            class="button"
+            type="button"
+            @click="toggle"
+            :class="[!isStudent ? 'active' : '']"
+          >Instructor</button>
+        </div>
         <textarea
           v-if="field.id === 'content'"
           :name="field.id"
@@ -19,7 +34,7 @@
           @input="field.value = $event.target.value"
         />
         <input
-          v-else
+          v-if="field.id !== 'isStudent' && field.id !== 'content'"
           :type="field.id === 'password' ? 'password' : 'text'"
           :name="field.id"
           :value="field.value"
@@ -61,10 +76,14 @@ export default {
       hasBody: false, // Whether or not form request has a body
       setUsername: false, // Whether or not stored username should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
-      callback: null // Function to run after successful form submission
+      callback: null, // Function to run after successful form submission,
+      isStudent: true,
     };
   },
   methods: {
+    toggle() {
+      this.isStudent = !this.isStudent;
+    },
     async submit() {
       /**
         * Submits a form with the specified options from data().
@@ -77,6 +96,9 @@ export default {
       if (this.hasBody) {
         options.body = JSON.stringify(Object.fromEntries(
           this.fields.map(field => {
+            if (field.id === 'isStudent') {
+              field.value = this.isStudent;
+            }
             const {id, value} = field;
             field.value = '';
             return [id, value];
@@ -142,5 +164,11 @@ form h3 {
 textarea {
    font-family: inherit;
    font-size: inherit;
+}
+.button:active {
+  background-color: green
+}
+.button.active {
+  background-color: green
 }
 </style>

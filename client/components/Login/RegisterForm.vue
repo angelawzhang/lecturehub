@@ -13,6 +13,8 @@ export default {
       hasBody: true,
       setUsername: true,
       fields: [
+        {id: 'isStudent', label: 'I am a', value: true},
+        {id: 'name', label: 'Name', value: ''},
         {id: 'username', label: 'Username', value: ''},
         {id: 'password', label: 'Password', value: ''}
       ],
