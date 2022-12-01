@@ -37,8 +37,8 @@ const isValidPostId = async (
   res: Response,
   next: NextFunction
 ) => {
-  const validPost = req.body.postId;
-  const post = validPost ? await PostModel.findById(validPost) : "";
+  const validPost = isValidObjectId(req.body.postId);
+  const post = validPost ? await PostModel.findById(req.body.postId) : "";
   if (!post) {
     res.status(404).json({
       error: "Post ID is not valid",
