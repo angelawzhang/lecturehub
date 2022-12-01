@@ -1,18 +1,17 @@
 <template>
   <div class="postContainer">
-    <div v-if="!editing">
-      <div>{{ this.content }}</div>
-      <button @click="switchEditing">Edit</button>
-    </div>
-    <div v-else>
-      <div>
-        <textarea :value="content" @input="content = $event.target.value" />
+    <div v-if="this.postObject.authorId === this.$store.state.id">
+      <div v-if="!editing">
+        <div>{{ this.content }}</div>
+        <button @click="switchEditing">Edit</button>
       </div>
-      <button @click="submit">Confirm</button>
-      <button @click="switchEditing">Cancel</button>
-    </div>
-    <div>
-      <button>Delete</button>
+      <div v-else>
+        <div>
+          <textarea :value="content" @input="content = $event.target.value" />
+        </div>
+        <button @click="submit">Confirm</button>
+        <button @click="switchEditing">Cancel</button>
+      </div>
     </div>
     <div>{{ this.postObject.author }} on {{ this.postObject.dateCreated }}</div>
   </div>

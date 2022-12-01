@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -9,8 +9,9 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
+    id: null,
     username: null, // Username of the logged in user
-    alerts: {} // global success/error messages encountered during submissions to non-visible forms
+    alerts: {}, // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
     alert(state, payload) {
@@ -29,9 +30,16 @@ const store = new Vuex.Store({
        */
       state.username = username;
     },
+    setId(state, id) {
+      /**
+       * Update the stored username to the specified one.
+       * @param username - new username to set
+       */
+      state.id = id;
+    },
   },
   // Store data across page refreshes, only discard on browser close
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState()],
 });
 
 export default store;
