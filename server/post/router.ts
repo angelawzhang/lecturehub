@@ -118,4 +118,29 @@ router.patch(
   }
 );
 
+/**
+ * Deletes a post
+ *
+ * @name DELETE /api/post
+ *
+ * @param {string} postId - the ID of the post
+ * @throws {403} - If the user is not logged in or not the author
+ * @throws {404} - If the post ID is not valid
+ */
+router.delete(
+  "/",
+  [
+    userValidator.isUserLoggedIn,
+    postValidator.isValidPostId,
+    postValidator.isValidPostModifier,
+  ],
+  async (req: Request, res: Response) => {
+    const postId = req.body.postId;
+    await PostCollection.deleteOne(postId);
+    res.status(200).json({
+      message: "Post successfully deleted",
+    });
+  }
+);
+
 export { router as postRouter };
