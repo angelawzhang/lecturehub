@@ -9,7 +9,8 @@
       </header>
       <ChangeUsernameForm />
       <ChangePasswordForm />
-      <PostSection lectureId="634ca70948cf4513ab145dc4" />
+      <!-- TODO: Move this somewhere else when lecture is implemented -->
+      <PostSection :lectureId="'634ca70948cf4513ab145dc4'" />
     </section>
   </main>
 </template>
