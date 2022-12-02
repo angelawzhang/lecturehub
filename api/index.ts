@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import * as userValidator from "../server/user/middleware";
 import { userRouter } from "../server/user/router";
 import { postRouter } from "../server/post/router";
+import { annotationRouter } from "../server/annotation/router";
 import MongoStore from "connect-mongo";
 
 // Load environmental variables
@@ -72,6 +73,7 @@ app.use(userValidator.isCurrentSessionUserExists);
 // Add routers from routes folder
 app.use("/api/users", userRouter);
 app.use("/api/post", postRouter);
+app.use("/api/annotation", annotationRouter);
 
 // Catch all the other routes and display error message
 app.all("*", (req: Request, res: Response) => {
