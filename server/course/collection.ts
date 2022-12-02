@@ -44,6 +44,36 @@ class CourseCollection {
   }
 
   /**
+   * Activate a course.
+   *
+   * @param {string} courseId - The courseId of the course to activate
+   * @return {Promise<HydratedDocument<Course>> | Promise<null>} - The course with the given id, if any
+   */
+  static async activateCourse(
+    courseId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Course>> {
+    const course = await CourseModel.findOne({ _id: courseId });
+    course.active = true;
+    await course.save();
+    return course;
+  }
+
+  /**
+   * Deactivate a course.
+   *
+   * @param {string} courseId - The courseId of the course to deactivate
+   * @return {Promise<HydratedDocument<Course>> | Promise<null>} - The course with the given id, if any
+   */
+  static async deactivateCourse(
+    courseId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Course>> {
+    const course = await CourseModel.findOne({ _id: courseId });
+    course.active = false;
+    await course.save();
+    return course;
+  }
+
+  /**
    * Delete a course from the collection.
    *
    * @param {string} courseId - The courseId of course to delete
