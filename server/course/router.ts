@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import express from "express";
 import CourseCollection from "./collection";
 import * as userValidator from "../user/middleware";
@@ -7,6 +7,59 @@ import * as util from "./util";
 import { TermLabel } from "./model";
 
 const router = express.Router();
+
+/**
+ * Get a course.
+ *
+ * @name GET /api/course?courseId=id
+ *
+ * @param {string} courseId - id of the course
+ * @return {CourseResponse} - the course
+ *
+ * @throws {403} - if the user is not logged in or instructor
+ * @throws {404} - if the course id is not valid
+ *
+ */
+/**
+ * Get course by instructor.
+ *
+ * @name GET /api/course?userId=id
+ *
+ * @param {string} userId - id of the instructor
+ * @return {CourseResponse} - the courses
+ *
+ * @throws {403} - if the user is not logged in
+ * @throws {404} - if the user id is not valid
+ *
+ */
+
+router.get(
+  "/",
+  [userValidator.isUserLoggedIn, courseValidator.isInstructor],
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.userId !== undefined) {
+      next();
+      return;
+    }
+    const course = await CourseCollection.findOneByCourseId(
+      req.query.courseId as string
+    );
+    res.status(200).json({
+      message: "Your course info was found successfully.",
+      course: course ? util.constructCourseResponse(course) : null,
+    });
+  },
+  async (req: Request, res: Response) => {
+    const courses = await CourseCollection.findAllByInstructor(
+      req.query.userId as string
+    );
+    const courseResponse = courses.map(util.constructCourseResponse);
+    res.status(200).json({
+      message: "Your course info was found successfully.",
+      courses: courses ? courseResponse : null,
+    });
+  }
+);
 
 /**
  * Create a course.
@@ -154,6 +207,30 @@ router.patch(
     res.status(201).json({
       message: "The student was removed successfully.",
       course: util.constructCourseResponse(course),
+    });
+  }
+);
+
+/**
+ * Deletes a course
+ *
+ * @name DELETE /api/course
+ *
+ * @param {string} courseId - the id of the course
+ * @throws {403} - if the user is not logged in or not the instructor
+ * @throws {404} - if the course id is not valid
+ */
+router.delete(
+  "/",
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidCourseId,
+  ],
+  async (req: Request, res: Response) => {
+    await CourseCollection.deleteOne(req.body.courseId);
+    res.status(200).json({
+      message: "Course successfully deleted",
     });
   }
 );

@@ -44,6 +44,18 @@ class CourseCollection {
   }
 
   /**
+   * Find courses by instructor.
+   *
+   * @param {string} userId - The courseId of the course to find
+   * @return {Promise<HydratedDocument<Course>[]> | Promise<null>} - The course with the given id, if any
+   */
+  static async findAllByInstructor(
+    userId: Types.ObjectId | string
+  ): Promise<Array<HydratedDocument<Course>>> {
+    return CourseModel.find({ instructor: userId });
+  }
+
+  /**
    * Activate a course.
    *
    * @param {string} courseId - The courseId of the course to activate

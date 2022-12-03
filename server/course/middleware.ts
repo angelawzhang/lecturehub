@@ -3,12 +3,13 @@ import UserModel from "../user/model";
 import UserCollection from "../user/collection";
 import CourseCollection from "./collection";
 import { isValidObjectId } from "mongoose";
+import CourseModel from "./model";
 
 /**
  * Checks if a name in req.body is valid, that is, it matches the name regex
  */
 const isValidName = (req: Request, res: Response, next: NextFunction) => {
-  const nameRegex = /^\w+$/i;
+  const nameRegex = /^[\w\-\s]+$/i;
   if (!nameRegex.test(req.body.name)) {
     res.status(400).json({
       error: "Name must be a nonempty alphanumeric string.",
@@ -72,4 +73,32 @@ const isValidUserId = async (
   next();
 };
 
-export { isValidName, isInstructor, isEnrolled, isValidUserId };
+/**
+ * Checks if the course ID is a valid course
+ */
+const isValidCourseId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const isValidCourse = req.query.courseId
+    ? isValidObjectId(req.query.courseId)
+    : isValidObjectId(req.body.courseId);
+  const courseId = req.query.courseId ? req.query.courseId : req.body.courseId;
+  const course = isValidCourse ? await CourseModel.findById(courseId) : "";
+  if (!course) {
+    res.status(404).json({
+      error: "Course ID is not valid",
+    });
+    return;
+  }
+  next();
+};
+
+export {
+  isValidName,
+  isInstructor,
+  isEnrolled,
+  isValidUserId,
+  isValidCourseId,
+};
