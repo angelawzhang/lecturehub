@@ -1,5 +1,5 @@
 import type { HydratedDocument, Types } from "mongoose";
-import { User } from "server/user/model";
+import UserModel, { User } from "../user/model";
 import type { Course, TermLabel } from "./model";
 import CourseModel from "./model";
 
@@ -69,6 +69,47 @@ class CourseCollection {
   ): Promise<HydratedDocument<Course>> {
     const course = await CourseModel.findOne({ _id: courseId });
     course.active = false;
+    await course.save();
+    return course;
+  }
+
+  /**
+   * Add a student to a course.
+   *
+   * @param {string} userId - The userId of the student to add
+   * @param {string} courseId - The courseId of the course to add to
+   * @return {Promise<HydratedDocument<Course>> | Promise<null>} - The course with the given id
+   */
+  static async addStudent(
+    userId: Types.ObjectId | string,
+    courseId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Course>> {
+    const course = await CourseModel.findOne({ _id: courseId });
+    const user = await UserModel.findOne({ _id: userId });
+    course.enrolled.push(user);
+    await course.save();
+    return course;
+  }
+
+  /**
+   * Remove a student from a course.
+   *
+   * @param {string} userId - The userId of the student to remove
+   * @param {string} courseId - The courseId of the course to remove from
+   * @return {Promise<HydratedDocument<Course>> | Promise<null>} - The course with the given id
+   */
+  static async removeStudent(
+    userId: Types.ObjectId | string,
+    courseId: Types.ObjectId | string
+  ): Promise<HydratedDocument<Course>> {
+    const course = await CourseModel.findOne({ _id: courseId });
+    const user = await UserModel.findOne({ _id: userId });
+    for (var i = 0; i < course.enrolled.length; i++) {
+      if (course.enrolled[i]._id == userId) {
+        course.enrolled.splice(i, 1);
+        break;
+      }
+    }
     await course.save();
     return course;
   }

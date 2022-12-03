@@ -18,11 +18,18 @@ const router = express.Router();
  * @param {string} year - year of the course
  * @return {CourseResponse} - the created course
  *
+ * @throws {400} - if the course name is invalid
+ * @throws {403} - if the user is not logged in or instructor
+ *
  */
 
 router.post(
   "/",
-  [userValidator.isUserLoggedIn, courseValidator.isInstructor],
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidName,
+  ],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.addOne(
       req.body.name,
@@ -40,10 +47,12 @@ router.post(
 /**
  * Activate a course.
  *
- * @name PATCH /api/course
+ * @name PATCH /api/course/activate
  *
  * @param {string} courseId - id of the course
  * @return {CourseResponse} - the activated course
+ *
+ * @throws {403} - if the user is not logged in or instructor
  *
  */
 
@@ -62,10 +71,12 @@ router.patch(
 /**
  * Deactivate a course.
  *
- * @name PATCH /api/course
+ * @name PATCH /api/course/deactivate
  *
  * @param {string} courseId - id of the course
  * @return {CourseResponse} - the deactivated course
+ *
+ * @throws {403} - if the user is not logged in or instructor
  *
  */
 
@@ -76,6 +87,72 @@ router.patch(
     const course = await CourseCollection.deactivateCourse(req.body.courseId);
     res.status(201).json({
       message: "Your course was deactivated successfully.",
+      course: util.constructCourseResponse(course),
+    });
+  }
+);
+
+/**
+ * Add a student to a course.
+ *
+ * @name PATCH /api/course/add-student
+ *
+ * @param {string} userId - id of the student
+ * @param {string} courseId - id of the course
+ * @return {CourseResponse}
+ *
+ * @throws {403} - if the user is not logged in or instructor
+ * @throws {404} - if the given user id is not found
+ */
+
+router.patch(
+  "/add-student",
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidUserId,
+  ],
+  async (req: Request, res: Response) => {
+    const course = await CourseCollection.addStudent(
+      req.body.userId,
+      req.body.courseId
+    );
+    res.status(201).json({
+      message: "The student was added successfully.",
+      course: util.constructCourseResponse(course),
+    });
+  }
+);
+
+/**
+ * Delete a student from a course.
+ *
+ * @name PATCH /api/course/delete-student
+ *
+ * @param {string} userId - id of the student
+ * @param {string} courseId - id of the course
+ * @return {CourseResponse}
+ *
+ * @throws {403} - if the user is not logged in or instructor
+ * @throws {404} - if the requested student is not enrolled
+ * @throws {404} - if the given user id is not found
+ */
+
+router.patch(
+  "/delete-student",
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidUserId,
+    courseValidator.isEnrolled,
+  ],
+  async (req: Request, res: Response) => {
+    const course = await CourseCollection.removeStudent(
+      req.body.userId,
+      req.body.courseId
+    );
+    res.status(201).json({
+      message: "The student was removed successfully.",
       course: util.constructCourseResponse(course),
     });
   }
