@@ -9,6 +9,8 @@
       </header>
       <ChangeUsernameForm />
       <ChangePasswordForm />
+      <!-- TODO: Move this somewhere else when lecture is implemented -->
+      <PostSection :lectureId="'634ca70948cf4513ab145dc4'" />
     </section>
   </main>
 </template>
@@ -18,6 +20,7 @@ import ChangeUsernameForm from "@/components/Account/ChangeUsernameForm.vue";
 import ChangePasswordForm from "@/components/Account/ChangePasswordForm.vue";
 import DeleteAccountForm from "@/components/Account/DeleteAccountForm.vue";
 import LogoutForm from "@/components/Account/LogoutForm.vue";
+import PostSection from "@/components/Posts/PostSection.vue";
 
 export default {
   name: "AccountPage",
@@ -26,6 +29,7 @@ export default {
     ChangePasswordForm,
     DeleteAccountForm,
     LogoutForm,
+    PostSection,
   },
 };
 </script>
