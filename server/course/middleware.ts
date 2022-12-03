@@ -62,8 +62,11 @@ const isValidUserId = async (
   res: Response,
   next: NextFunction
 ) => {
-  const isValidUser = isValidObjectId(req.body.userId);
-  const post = isValidUser ? await UserModel.findById(req.body.userId) : "";
+  const isValidUser = req.query.userId
+    ? isValidObjectId(req.query.userId)
+    : isValidObjectId(req.body.userId);
+  const userId = req.query.userId ? req.query.userId : req.body.userId;
+  const post = isValidUser ? await UserModel.findById(userId) : "";
   if (!post) {
     res.status(404).json({
       error: "User ID is not valid",

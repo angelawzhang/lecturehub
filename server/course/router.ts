@@ -11,7 +11,7 @@ const router = express.Router();
 /**
  * Get a course.
  *
- * @name GET /api/course?courseId=id
+ * @name GET /api/course/id?courseId=id
  *
  * @param {string} courseId - id of the course
  * @return {CourseResponse} - the course
@@ -20,10 +20,28 @@ const router = express.Router();
  * @throws {404} - if the course id is not valid
  *
  */
+router.get(
+  "/id",
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidCourseId,
+  ],
+  async (req: Request, res: Response) => {
+    const course = await CourseCollection.findOneByCourseId(
+      req.query.courseId as string
+    );
+    res.status(200).json({
+      message: "Your course info was found successfully.",
+      course: course ? util.constructCourseResponse(course) : null,
+    });
+  }
+);
+
 /**
  * Get course by instructor.
  *
- * @name GET /api/course?userId=id
+ * @name GET /api/course/instructor?userId=id
  *
  * @param {string} userId - id of the instructor
  * @return {CourseResponse} - the courses
@@ -34,21 +52,12 @@ const router = express.Router();
  */
 
 router.get(
-  "/",
-  [userValidator.isUserLoggedIn, courseValidator.isInstructor],
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (req.query.userId !== undefined) {
-      next();
-      return;
-    }
-    const course = await CourseCollection.findOneByCourseId(
-      req.query.courseId as string
-    );
-    res.status(200).json({
-      message: "Your course info was found successfully.",
-      course: course ? util.constructCourseResponse(course) : null,
-    });
-  },
+  "/instructor",
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidUserId,
+  ],
   async (req: Request, res: Response) => {
     const courses = await CourseCollection.findAllByInstructor(
       req.query.userId as string
@@ -106,12 +115,17 @@ router.post(
  * @return {CourseResponse} - the activated course
  *
  * @throws {403} - if the user is not logged in or instructor
+ * @throws {404} - if the courseId is not valid
  *
  */
 
 router.patch(
   "/activate",
-  [userValidator.isUserLoggedIn, courseValidator.isInstructor],
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidCourseId,
+  ],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.activateCourse(req.body.courseId);
     res.status(201).json({
@@ -130,12 +144,17 @@ router.patch(
  * @return {CourseResponse} - the deactivated course
  *
  * @throws {403} - if the user is not logged in or instructor
+ * @throws {404} - if the courseId is not valid
  *
  */
 
 router.patch(
   "/deactivate",
-  [userValidator.isUserLoggedIn, courseValidator.isInstructor],
+  [
+    userValidator.isUserLoggedIn,
+    courseValidator.isInstructor,
+    courseValidator.isValidCourseId,
+  ],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.deactivateCourse(req.body.courseId);
     res.status(201).json({
@@ -155,7 +174,7 @@ router.patch(
  * @return {CourseResponse}
  *
  * @throws {403} - if the user is not logged in or instructor
- * @throws {404} - if the given user id is not found
+ * @throws {404} - if the given user id or course id is not found
  */
 
 router.patch(
@@ -164,6 +183,7 @@ router.patch(
     userValidator.isUserLoggedIn,
     courseValidator.isInstructor,
     courseValidator.isValidUserId,
+    courseValidator.isValidCourseId,
   ],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.addStudent(
@@ -188,7 +208,7 @@ router.patch(
  *
  * @throws {403} - if the user is not logged in or instructor
  * @throws {404} - if the requested student is not enrolled
- * @throws {404} - if the given user id is not found
+ * @throws {404} - if the given user id or course id is not found
  */
 
 router.patch(
@@ -198,6 +218,7 @@ router.patch(
     courseValidator.isInstructor,
     courseValidator.isValidUserId,
     courseValidator.isEnrolled,
+    courseValidator.isValidCourseId,
   ],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.removeStudent(

@@ -46,7 +46,7 @@ class CourseCollection {
   /**
    * Find courses by instructor.
    *
-   * @param {string} userId - The courseId of the course to find
+   * @param {string} userId - The userId of the user to find
    * @return {Promise<HydratedDocument<Course>[]> | Promise<null>} - The course with the given id, if any
    */
   static async findAllByInstructor(
