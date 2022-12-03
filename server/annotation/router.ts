@@ -44,7 +44,7 @@ router.get(
  * @param {Number} second - The second of the point in video the annotation correponds to
  * @param {string} content - the content of the annotation
  * @return {AnnotationResponse}
- * @throws {404} - If lecture or parent ID is not valid
+ * @throws {404} - If lecture is not valid
  * @throws {400} - If the content is empty or empty characters
  * @throws {403} - If the user is not logged in
  * @throws {405} - If the parent annotation has a parent
@@ -105,7 +105,6 @@ router.patch(
       req.body.minute,
       req.body.second,
     );
-    console.log("type of hour", typeof(req.body.hour));
 
     res.status(200).json({
       message: "Annotation was successfully updated!",

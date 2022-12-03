@@ -17,7 +17,6 @@ const isValidLectureId = async (
   const lectureId = req.query.lectureId
     ? req.query.lectureId
     : req.body.lectureId;
-  console.log(validLecture, lectureId);
   // TODO: implement when LectureModel is added.
   // const annotation = validLecture ? await LectureModel.findById(lectureId) : "";
   // if (!annotation) {
@@ -37,14 +36,16 @@ const isValidAnnotationId = async (
   res: Response,
   next: NextFunction
 ) => {
-  const validAnnotation = req.body.annotationId ? req.body.annotationId : req.params.annotationId;
-  const annotation = validAnnotation ? await AnnotationModel.findById(validAnnotation) : "";
+  const annotationId = req.body.annotationId ? req.body.annotationId : req.params.annotationId;
+  const isValidId = isValidObjectId(annotationId);
+  const annotation = isValidId ? await AnnotationModel.findById(annotationId) : "";
   if (!annotation) {
     res.status(404).json({
       error: "Annotation ID is not valid",
     });
     return;
   }
+  
   next();
 };
 
