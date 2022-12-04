@@ -10,6 +10,7 @@ import * as userValidator from "../server/user/middleware";
 import { userRouter } from "../server/user/router";
 import { postRouter } from "../server/post/router";
 import { annotationRouter } from "../server/annotation/router";
+import { courseRouter } from '../server/course/router';
 import MongoStore from "connect-mongo";
 
 // Load environmental variables
@@ -74,6 +75,7 @@ app.use(userValidator.isCurrentSessionUserExists);
 app.use("/api/users", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/annotation", annotationRouter);
+app.use('/api/course', courseRouter);
 
 // Catch all the other routes and display error message
 app.all("*", (req: Request, res: Response) => {
