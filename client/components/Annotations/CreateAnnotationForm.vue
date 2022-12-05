@@ -6,9 +6,6 @@
       @input="content = $event.target.value"
     />
     <button @click="submit">Submit</button>
-    <div>
-      {{ this.getTime() }}
-    </div>
   </div>
 </template>
 
@@ -45,12 +42,19 @@ export default {
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
       };
+      let timeInSeconds = this.getTime();
+      let hours = Math.floor(timeInSeconds / 3600);
+      timeInSeconds %= 3600;
+      let minutes = Math.floor(timeInSeconds / 60);
+      let seconds = Math.floor(timeInSeconds % 60);
+      console.log(timeInSeconds);
+
       options.body = JSON.stringify({
         lectureId: this.lectureId,
         content: this.content,
-        hour: this.hour,
-        minute: this.minute,
-        second: this.second
+        hour: hours,
+        minute: minutes,
+        second: seconds
       });
 
       try {
@@ -68,3 +72,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+textarea {
+  width: 100%;
+  height: 100%;
+}
+</style>

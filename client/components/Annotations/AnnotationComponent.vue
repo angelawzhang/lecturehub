@@ -13,6 +13,13 @@
       >
         Edit
       </button>
+
+      <button
+        v-if="this.$store.state.id"
+        @click="deleteAnnotation"
+      >
+        Delete
+      </button>
       
     </div>
     <div v-else>
@@ -33,6 +40,9 @@ export default {
       type: Object,
       required: true,
     },
+    callback: {
+      type: Function,
+    }
   },
   data() {
     return {
@@ -58,6 +68,22 @@ export default {
       this.editing = !this.editing;
       this.content = this.annotationObject.content;
     },
+    async deleteAnnotation() {
+      const options = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+      };
+
+      try {
+        const url = `/api/annotation/${this.annotationObject._id}`;
+        const res = await fetch(url, options);
+        if (!res.ok) {
+          throw new Error(res.error);
+        }
+        this.callback();
+      } catch (e) {}
+    },
     async submit() {
       const options = {
         method: "PATCH",
@@ -65,12 +91,11 @@ export default {
         credentials: "same-origin",
       };
       options.body = JSON.stringify({
-        annotationId: this.annotationObject._id,
         content: this.content,
       });
 
       try {
-        const url = `/api/annotations`;
+        const url = `/api/annotation/${this.annotationObject._id}`;
         const res = await fetch(url, options);
         if (!res.ok) {
           throw new Error(res.error);

@@ -2,7 +2,9 @@
   <div class="annotationSectionContainer">
     <div class="annotationsContainer">
       <div v-for="annotations in this.annotations" class="annotationChainContainer">
-        <AnnotationComponent :annotationObject="annotations" />
+        <AnnotationComponent 
+          :callback="getAnnotations"
+          :annotationObject="annotations" />
       </div>
     </div>
     <CreateAnnotationForm
@@ -66,6 +68,7 @@ export default {
   flex-direction: column;
   gap: 6px;
   overflow: scroll;
+  height: 100%;
 }
 .annotationChainContainer {
   border-style: solid;
@@ -74,6 +77,7 @@ export default {
 
 .annotationSectionContainer {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   height: 50vh;

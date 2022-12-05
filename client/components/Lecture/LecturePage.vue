@@ -51,6 +51,7 @@
       getTime() {
         const vid = document.getElementById("lecture");
         console.log(vid.currentTime);
+        return vid.currentTime;
       },
     },
   
