@@ -4,7 +4,7 @@
       <div>
         {{ this.formatTime() }}
       </div>
-      
+
       <div>{{ this.content }}</div>
 
       <button

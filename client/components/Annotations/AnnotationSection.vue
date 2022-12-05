@@ -9,6 +9,7 @@
       :callback="getAnnotations"
       :lectureId="lectureId"
       :placeholderContent="'Create a new annotation'"
+      :getTime="getTime"
     />
   </div>
 </template>
@@ -31,6 +32,9 @@ export default {
     lectureId: {
       type: String,
       required: true,
+    },
+    getTime: {
+      type: Function,
     },
   },
   methods: {

@@ -6,6 +6,9 @@
       @input="content = $event.target.value"
     />
     <button @click="submit">Submit</button>
+    <div>
+      {{ this.getTime() }}
+    </div>
   </div>
 </template>
 
@@ -30,6 +33,9 @@ export default {
     },
     placeholderContent: {
       type: String,
+    },
+    getTime: {
+      type: Function,
     },
   },
   methods: {
