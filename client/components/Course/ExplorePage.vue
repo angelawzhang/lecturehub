@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div class="explore">
       Explore and enroll in active classes!
-  
+    <br>
+    <br>
       <div v-for="course in $store.state.courses">
         <router-link :to="'/course/' + course._id">{{ course.name }}</router-link>
       </div>
@@ -37,4 +38,10 @@
     },
   };
   </script>
+
+<style scoped>
+.explore {
+    padding-top: 10px;
+}
+</style>
   

@@ -39,6 +39,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
 * {
   box-sizing: border-box;
 }
@@ -50,6 +51,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 1.2em;
+  font-family: 'Lato', sans-serif;
 }
 
 main {
@@ -63,6 +65,7 @@ main {
 
 .sideContainer {
   width: 70%;
+  padding-left: 10px;
 }
 
 .alerts {
@@ -93,4 +96,15 @@ main {
 .alerts .success {
   background-color: rgb(45, 135, 87);
 }
+
+a:link { text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
 </style>
