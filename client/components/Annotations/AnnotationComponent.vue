@@ -19,10 +19,10 @@
         {{ this.formatTime() }}
       </div>
       <div>
-        Created: {{ this.annotationObject.dateCreated }}
+        Created: {{ dateCreated }}
       </div>
 
-      <div>{{ this.content }}</div>
+      <div>{{ content }}</div>
 
     </div>
     <div v-else>
@@ -47,13 +47,32 @@ export default {
       type: Function,
     }
   },
+  computed: {
+    content: {
+      get() {
+        return this.annotationObject.content;
+      },
+      set(newValue) {
+        // Note: we are using destructuring assignment syntax here.
+        this.annotationObject.content = newValue;
+      }
+    },
+    hour() {
+      return this.annotationObject.hour;
+    },
+    minute() {
+      return this.annotationObject.minute;
+    },
+    second() {
+      return this.annotationObject.second;
+    },
+    dateCreated() {
+      return this.annotationObject.dateCreated;
+    }
+  },
   data() {
     return {
       editing: false,
-      content: this.annotationObject.content,
-      hour: this.annotationObject.hour,
-      minute: this.annotationObject.minute,
-      second: this.annotationObject.second,
     };
   },
   methods: {
