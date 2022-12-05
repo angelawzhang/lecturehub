@@ -83,7 +83,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 57vh;
+  height: 62vh;
 }
 
 .childAnnotation {

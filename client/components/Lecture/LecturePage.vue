@@ -7,7 +7,7 @@
         </video>
         <AnnotationSection :lectureId="$route.params.lectureId" :getTime="getTime"/>
       </div>
-      <button @click="getTime">Click to print time</button>
+      <!-- <button @click="getTime">Click to print time</button> -->
       <PostSection :lectureId="$route.params.lectureId" />
     </div>
   </template>
@@ -69,6 +69,6 @@
   flex-direction: row;
   margin-top: 8px;
   margin-bottom: 8px;
-  height: 60vh;
+  height: 70vh;
 }
 </style>

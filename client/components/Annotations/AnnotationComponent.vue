@@ -1,12 +1,6 @@
 <template>
   <div class="annotationContainer">
     <div v-if="!editing">
-      <div>
-        {{ this.formatTime() }}
-      </div>
-
-      <div>{{ this.content }}</div>
-
       <button
         v-if="this.$store.state.id"
         @click="switchEditing"
@@ -20,7 +14,16 @@
       >
         Delete
       </button>
-      
+
+      <div>
+        {{ this.formatTime() }}
+      </div>
+      <div>
+        Created: {{ this.annotationObject.dateCreated }}
+      </div>
+
+      <div>{{ this.content }}</div>
+
     </div>
     <div v-else>
       <div>

@@ -28,7 +28,8 @@ const constructAnnotationResponse = (annotation: HydratedDocument<Annotation>): 
     minute: annotation.minute,
     second: annotation.second,
     content: annotation.content,
-    dateCreated: moment(annotation.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
+    dateCreated: moment(annotation.dateCreated).format("MM/DD/YYYY"),
+    // dateCreated: moment(annotation.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
   };
 };
 
