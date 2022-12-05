@@ -34,6 +34,7 @@ const isInstructor = async (
     res.status(403).json({
       error: `The user is not an instructor and doesn't have permissions to complete this action.`,
     });
+    return;
   }
   next();
 };
@@ -50,6 +51,7 @@ const isEnrolled = async (req: Request, res: Response, next: NextFunction) => {
     res.status(404).json({
       error: `The requested student is currently not enrolled in the course.`,
     });
+    return;
   }
   next();
 };

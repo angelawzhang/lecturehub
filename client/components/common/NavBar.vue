@@ -6,9 +6,12 @@
   <nav>
     <div class="navContainer">
       <h1 class="title">LectureHub</h1>
-      <div v-if="$store.state.username" class="routerContainer">
+      <div v-if="$store.state.name" class="routerContainer">
         <router-link to="/"> Home </router-link>
-        <router-link to="/explore"> Explore </router-link>
+        <router-link v-if="$store.state.student" to="/explore">
+          Explore
+        </router-link>
+        <router-link v-else to="/create"> Create </router-link>
         <router-link to="/account"> Profile </router-link>
         <!-- <router-link v-else to="/login"> Login </router-link> -->
       </div>
@@ -21,9 +24,7 @@
           <p>{{ alert }}</p>
         </article>
       </section> -->
-      <router-link v-if="!$store.state.username" to="/login">
-        Login
-      </router-link>
+      <router-link v-if="!$store.state.name" to="/login"> Login </router-link>
 
       <a v-else v-on:click="logout" href="">Logout</a>
     </div>
