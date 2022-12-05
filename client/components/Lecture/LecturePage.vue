@@ -1,17 +1,21 @@
 <template>
     <div>
       <h1>{{ this.lecture.name }}</h1>
-      <video id="lecture" v-if="src !== ''" width="500" height="500" controls>
-        <source :src="src" type="video/mp4" />
-      </video>
-      <button @click="getTime">Click to print time</button>
+      <div class="container"> 
+        <video id="lecture" v-if="src !== ''" width="500" height="500" controls>
+          <source :src="src" type="video/mp4" />
+        </video>
+        <AnnotationSection :lectureId="$route.params.lectureId" :getTime="getTime"/>
+      </div>
+      <!-- <button @click="getTime">Click to print time</button> -->
       <PostSection :lectureId="$route.params.lectureId" />
     </div>
   </template>
   
   <script>
   import PostSection from "@/components/Posts/PostSection.vue";
-  
+  import AnnotationSection from "@/components/Annotations/AnnotationSection.vue"
+    
   export default {
     name: "LecturePage",
     data() {
@@ -23,6 +27,7 @@
     },
     components: {
       PostSection,
+      AnnotationSection
     },
   
     methods: {
@@ -46,6 +51,7 @@
       getTime() {
         const vid = document.getElementById("lecture");
         console.log(vid.currentTime);
+        return vid.currentTime;
       },
     },
   
@@ -55,3 +61,14 @@
   };
   </script>
   
+</script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  height: 70vh;
+}
+</style>

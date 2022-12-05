@@ -4,6 +4,7 @@ import AnnotationCollection from "./collection";
 import * as annotationValidator from "./middleware";
 import * as userValidator from "../user/middleware";
 import * as util from "./util";
+import _ from 'lodash';
 
 const router = express.Router();
 
@@ -26,11 +27,16 @@ router.get(
     const annotations = (
       await AnnotationCollection.findAllByLectureAndAuthor(req.query.lectureId as string, req.session.userId)
     ).map(util.constructAnnotationResponse);
+    console.log("presorted", annotations);
+    _.sortBy(annotations, ["hour", "minute", "second"]);
+    console.log("sorted", annotations);
+
     res.status(200).json({
       message: "Annotations successfully retrieved.",
       annotations: annotations,
     });
   }
+
 );
 
 /**
