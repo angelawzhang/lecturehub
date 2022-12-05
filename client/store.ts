@@ -10,8 +10,12 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     id: null,
-    username: null, // Username of the logged in user
+    student: true,
+    name: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
+    courses: [],
+    enrolled: [],
+    instructing: [],
   },
   mutations: {
     alert(state, payload) {
@@ -23,12 +27,12 @@ const store = new Vuex.Store({
         Vue.delete(state.alerts, payload.message);
       }, 3000);
     },
-    setUsername(state, username) {
+    setUsername(state, name) {
       /**
        * Update the stored username to the specified one.
        * @param username - new username to set
        */
-      state.username = username;
+      state.name = name;
     },
     setId(state, id) {
       /**
@@ -36,6 +40,26 @@ const store = new Vuex.Store({
        * @param username - new username to set
        */
       state.id = id;
+    },
+
+    setCourses(state, courses) {
+      state.courses = courses;
+    },
+
+    async refreshEnrolled(state) {
+      const url = "/api/course/student";
+      const res = await fetch(url).then(async (res) => res.json());
+      state.enrolled = res.courses;
+    },
+
+    async refreshInstructing(state) {
+      const url = `/api/course/instructor?userId=${state.id}`;
+      const res = await fetch(url).then(async (res) => res.json());
+      state.instructing = res.courses;
+    },
+
+    setStudent(state, status) {
+      state.student = status;
     },
   },
   // Store data across page refreshes, only discard on browser close

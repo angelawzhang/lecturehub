@@ -21,12 +21,19 @@ export default {
       .then((res) => res.json())
       .then((res) => {
         const user = res.user;
-        this.$store.commit("setUsername", user ? user.username : null);
+        this.$store.commit("setUsername", user ? user.name : null);
         this.$store.commit("setId", user ? user._id : null);
+        this.$store.commit("setStudent", user ? user.isStudent : null);
       });
 
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
+  },
+
+  mounted() {
+    this.$store.state.student
+      ? this.$store.commit("refreshEnrolled")
+      : this.$store.commit("refreshInstructing");
   },
 };
 </script>

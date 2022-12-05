@@ -5,13 +5,10 @@
   <main>
     <section>
       <header>
-        <h2>Welcome, {{ $store.state.username }}</h2>
+        <h2>Welcome, {{ $store.state.name }}</h2>
       </header>
       <ChangeUsernameForm />
       <ChangePasswordForm />
-      <!-- TODO: Move this somewhere else when lecture is implemented -->
-      <PostSection :lectureId="'634ca70948cf4513ab145dc4'" />
-      <AnnotationSection :lectureId="'637dc8280ed398d029819a56'" />
     </section>
   </main>
 </template>

@@ -114,11 +114,14 @@ export default {
         if (this.setUsername) {
           const text = await r.text();
           const res = text ? JSON.parse(text) : { user: null };
-          this.$store.commit(
-            "setUsername",
-            res.user ? res.user.username : null
-          );
+          this.$store.commit("setUsername", res.user ? res.user.name : null);
           this.$store.commit("setId", res.user ? res.user._id : null);
+          this.$store.commit(
+            "setStudent",
+            res.user ? res.user.isStudent : null
+          );
+          this.$store.commit("refreshEnrolled");
+          this.$store.commit("refreshInstructing");
         }
 
         if (this.callback) {
