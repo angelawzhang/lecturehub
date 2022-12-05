@@ -69,6 +69,8 @@ export default {
   gap: 6px;
   overflow: scroll;
   height: 100%;
+  min-height: 40vh;
+
 }
 .annotationChainContainer {
   border-style: solid;
@@ -80,7 +82,8 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  height: 50vh;
+  justify-content: space-between;
+  height: 57vh;
 }
 
 .childAnnotation {

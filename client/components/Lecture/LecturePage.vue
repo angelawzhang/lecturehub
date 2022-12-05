@@ -69,5 +69,6 @@
   flex-direction: row;
   margin-top: 8px;
   margin-bottom: 8px;
+  height: 60vh;
 }
 </style>
