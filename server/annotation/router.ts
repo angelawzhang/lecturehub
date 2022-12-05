@@ -4,7 +4,6 @@ import AnnotationCollection from "./collection";
 import * as annotationValidator from "./middleware";
 import * as userValidator from "../user/middleware";
 import * as util from "./util";
-import _ from 'lodash';
 
 const router = express.Router();
 
@@ -25,18 +24,17 @@ router.get(
   [userValidator.isUserLoggedIn, annotationValidator.isValidLectureId],
   async (req: Request, res: Response) => {
     const annotations = (
-      await AnnotationCollection.findAllByLectureAndAuthor(req.query.lectureId as string, req.session.userId)
+      await AnnotationCollection.findAllByLectureAndAuthor(
+        req.query.lectureId as string,
+        req.session.userId
+      )
     ).map(util.constructAnnotationResponse);
-    console.log("presorted", annotations);
-    _.sortBy(annotations, ["hour", "minute", "second"]);
-    console.log("sorted", annotations);
 
     res.status(200).json({
       message: "Annotations successfully retrieved.",
       annotations: annotations,
     });
   }
-
 );
 
 /**
@@ -62,7 +60,7 @@ router.post(
     annotationValidator.isValidAnnotationContent,
     //TODO: Uncomment when middleware is unblocked
     //annotationValidator.isValidLectureId
-    annotationValidator.isValidTime
+    annotationValidator.isValidTime,
   ],
   async (req: Request, res: Response) => {
     const annotation = await AnnotationCollection.addOne(
@@ -101,7 +99,7 @@ router.patch(
     userValidator.isUserLoggedIn,
     annotationValidator.isValidAnnotationId,
     annotationValidator.isValidAnnotationContent,
-    annotationValidator.isValidTime
+    annotationValidator.isValidTime,
   ],
   async (req: Request, res: Response) => {
     const annotation = await AnnotationCollection.updateOne(
@@ -109,7 +107,7 @@ router.patch(
       req.body.content,
       req.body.hour,
       req.body.minute,
-      req.body.second,
+      req.body.second
     );
 
     res.status(200).json({
@@ -128,19 +126,15 @@ router.patch(
  * @throws {403} - If the user is not logged in
  * @throws {404} - If the annotationId is not valid
  */
- router.delete(
-  '/:annotationId?',
-  [
-    userValidator.isUserLoggedIn,
-    annotationValidator.isValidAnnotationId
-  ],
+router.delete(
+  "/:annotationId?",
+  [userValidator.isUserLoggedIn, annotationValidator.isValidAnnotationId],
   async (req: Request, res: Response) => {
     await AnnotationCollection.deleteOne(req.params.annotationId);
     res.status(200).json({
-      message: 'Your annotation was deleted successfully.'
+      message: "Your annotation was deleted successfully.",
     });
   }
 );
-
 
 export { router as annotationRouter };

@@ -51,7 +51,7 @@ class AnnotationCollection {
     authorId: Types.ObjectId | string
   ): Promise<Array<HydratedDocument<Annotation>>> {
     return AnnotationModel.find({ lectureId: lectureId, authorId: authorId })
-      .sort("-date")
+      .sort({ hour: 1, minute: 1, second: 1 })
       .populate("authorId");
   }
 
@@ -68,7 +68,7 @@ class AnnotationCollection {
     content?: string,
     hour?: Number,
     minute?: Number,
-    second?: Number,
+    second?: Number
   ): Promise<HydratedDocument<Annotation>> {
     const annotation = await AnnotationModel.findById(annotationId);
     if (content) {
@@ -86,7 +86,7 @@ class AnnotationCollection {
     if (second) {
       annotation.second = second;
     }
-    
+
     await annotation.save();
     return annotation.populate("authorId");
   }
