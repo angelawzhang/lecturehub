@@ -83,7 +83,7 @@ router.post(
 /**
  * Update a annotation
  *
- * @name PATCH /api/annotation/
+ * @name PATCH /api/annotation/:annotationId
  *
  * @param {string} annotationId - the ID of the annotation
  * @param {string} content - the updated content of the annotation
