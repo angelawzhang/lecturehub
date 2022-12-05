@@ -8,6 +8,17 @@ import { TermLabel } from "./model";
 
 const router = express.Router();
 
+router.get(
+  "/",
+  [userValidator.isUserLoggedIn],
+  async (req: Request, res: Response) => {
+    const courses = await CourseCollection.getAllActive();
+    res.status(200).json({
+      message: "Your courses were found sucessfully",
+      courses: courses.map(util.constructCourseResponse),
+    });
+  }
+);
 /**
  * Get a course.
  *
@@ -22,11 +33,7 @@ const router = express.Router();
  */
 router.get(
   "/id",
-  [
-    userValidator.isUserLoggedIn,
-    courseValidator.isInstructor,
-    courseValidator.isValidCourseId,
-  ],
+  [userValidator.isUserLoggedIn, courseValidator.isValidCourseId],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.findOneByCourseId(
       req.query.courseId as string
@@ -34,6 +41,23 @@ router.get(
     res.status(200).json({
       message: "Your course info was found successfully.",
       course: course ? util.constructCourseResponse(course) : null,
+    });
+  }
+);
+
+/**
+ * @name GET /api/course/student
+ */
+router.get(
+  "/student",
+  [userValidator.isUserLoggedIn],
+  async (req: Request, res: Response) => {
+    const courses = await CourseCollection.getAllStudentCourses(
+      req.session.userId
+    );
+    res.status(200).json({
+      message: "Your course info was found successfully.",
+      courses: courses.map(util.constructCourseResponse),
     });
   }
 );
@@ -179,15 +203,10 @@ router.patch(
 
 router.patch(
   "/add-student",
-  [
-    userValidator.isUserLoggedIn,
-    courseValidator.isInstructor,
-    courseValidator.isValidUserId,
-    courseValidator.isValidCourseId,
-  ],
+  [userValidator.isUserLoggedIn, courseValidator.isValidCourseId],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.addStudent(
-      req.body.userId,
+      req.session.userId,
       req.body.courseId
     );
     res.status(201).json({
@@ -213,16 +232,10 @@ router.patch(
 
 router.patch(
   "/delete-student",
-  [
-    userValidator.isUserLoggedIn,
-    courseValidator.isInstructor,
-    courseValidator.isValidUserId,
-    courseValidator.isEnrolled,
-    courseValidator.isValidCourseId,
-  ],
+  [userValidator.isUserLoggedIn, courseValidator.isValidCourseId],
   async (req: Request, res: Response) => {
     const course = await CourseCollection.removeStudent(
-      req.body.userId,
+      req.session.userId,
       req.body.courseId
     );
     res.status(201).json({

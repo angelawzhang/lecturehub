@@ -4,6 +4,19 @@ import type { Course, TermLabel } from "./model";
 import CourseModel from "./model";
 
 class CourseCollection {
+  static async getAllActive(): Promise<Array<HydratedDocument<Course>>> {
+    return CourseModel.find({ active: true });
+  }
+
+  static async getAllStudentCourses(
+    studentId: User
+  ): Promise<Array<HydratedDocument<Course>>> {
+    console.log(studentId);
+    return CourseModel.find({
+      enrolled: { $in: [studentId] },
+    });
+  }
+
   /**
    * Add a new course
    *
