@@ -5,7 +5,11 @@
 <template>
   <nav>
     <div class="navContainer">
-      <h1 class="title">LectureHub</h1>
+      <div class="titleAndLogo">
+        <h1 class="title">LectureHub</h1>
+        <img src="../../public/logo.svg">
+      </div>
+      
       <div v-if="$store.state.name" class="routerContainer">
         <router-link to="/"> Home </router-link>
         <router-link v-if="$store.state.student" to="/explore">
@@ -72,7 +76,7 @@ export default {
 <style scoped>
 nav {
   padding: 1vw 2vw;
-  background-color: #ccc;
+  background-color: #8eced2;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,6 +98,12 @@ img {
   justify-content: space-between;
   height: 100%;
   text-align: center;
+}
+
+.titleAndLogo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .routerContainer {
