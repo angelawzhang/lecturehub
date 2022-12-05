@@ -4,7 +4,12 @@
       <div v-for="annotations in this.annotations" class="annotationChainContainer">
         <AnnotationComponent 
           :callback="getAnnotations"
-          :annotationObject="annotations" />
+          :content="annotations.content"
+          :hour="annotations.hour"
+          :minute="annotations.minute"
+          :second="annotations.second"
+          :dateCreated="annotations.dateCreated"
+          :id="annotations._id" />
       </div>
     </div>
     <CreateAnnotationForm

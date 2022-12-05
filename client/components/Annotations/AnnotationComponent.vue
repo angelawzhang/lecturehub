@@ -19,7 +19,7 @@
         {{ this.formatTime() }}
       </div>
       <div>
-        Created: {{ this.annotationObject.dateCreated }}
+        Created: {{ this.dateCreated }}
       </div>
 
       <div>{{ this.content }}</div>
@@ -39,9 +39,29 @@
 export default {
   name: "AnnotationComponent",
   props: {
-    annotationObject: {
-      type: Object,
-      required: true,
+    content: {
+      type: String,
+      default: ''
+    },
+    dateCreated: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: String,
+      default: ''
+    },
+    hour: {
+      type: Number,
+      default: 0
+    },
+    minute: {
+      type: Number,
+      default: 0
+    },
+    second: {
+      type: Number,
+      default: 0
     },
     callback: {
       type: Function,
@@ -50,10 +70,6 @@ export default {
   data() {
     return {
       editing: false,
-      content: this.annotationObject.content,
-      hour: this.annotationObject.hour,
-      minute: this.annotationObject.minute,
-      second: this.annotationObject.second,
     };
   },
   methods: {
@@ -69,7 +85,7 @@ export default {
     },
     switchEditing() {
       this.editing = !this.editing;
-      this.content = this.annotationObject.content;
+      this.content = this.content;
     },
     async deleteAnnotation() {
       const options = {
@@ -79,7 +95,7 @@ export default {
       };
 
       try {
-        const url = `/api/annotation/${this.annotationObject._id}`;
+        const url = `/api/annotation/${this.id}`;
         const res = await fetch(url, options);
         if (!res.ok) {
           throw new Error(res.error);
@@ -98,7 +114,7 @@ export default {
       });
 
       try {
-        const url = `/api/annotation/${this.annotationObject._id}`;
+        const url = `/api/annotation/${this.id}`;
         const res = await fetch(url, options);
         if (!res.ok) {
           throw new Error(res.error);
