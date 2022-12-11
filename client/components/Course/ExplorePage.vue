@@ -12,6 +12,7 @@
         header-tag="header"
         header-bg-variant="light"
         header-text-variant="grey"
+        style="max-width: 15rem"
       >
         <template #header>
           <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>

@@ -1,6 +1,7 @@
 <template>
   <div class="course">
-    <div class="course-header">
+    <div v-if="!loaded">Loading course information...</div>
+    <div v-else class="course-header">
       <h1 class="course-name">{{ this.course.name }}</h1>
       <div class="course-button" v-if="$store.state.student">
         <div v-if="course.active">
@@ -60,6 +61,7 @@ export default {
       enrolled: false,
       active: false,
       instructor: "",
+      loaded: false,
     };
   },
   methods: {
@@ -72,6 +74,7 @@ export default {
           throw new Error(res.error);
         }
 
+        this.loaded = true;
         this.course = course.course;
         this.active = this.course.active;
         this.enrolled = this.course.enrolled.includes(this.$store.state.id);
