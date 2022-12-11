@@ -10,6 +10,13 @@
 <script>
 import NavBar from "@/components/common/NavBar.vue";
 
+import Vue from "vue";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
 export default {
   name: "App",
   components: { NavBar },
@@ -39,7 +46,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
 * {
   box-sizing: border-box;
 }
@@ -51,7 +58,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 1.2em;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 main {
@@ -97,14 +104,19 @@ main {
   background-color: rgb(45, 135, 87);
 }
 
-a:link { text-decoration: none; }
+a:link {
+  text-decoration: none;
+}
 
+a:visited {
+  text-decoration: none;
+}
 
-a:visited { text-decoration: none; }
+a:hover {
+  text-decoration: none;
+}
 
-
-a:hover { text-decoration: none; }
-
-
-a:active { text-decoration: none; }
+a:active {
+  text-decoration: none;
+}
 </style>
