@@ -4,7 +4,9 @@ import CourseCollection from "./collection";
 import * as userValidator from "../user/middleware";
 import * as courseValidator from "./middleware";
 import * as util from "./util";
+import * as userUtil from "../user/util";
 import { TermLabel } from "./model";
+import UserCollection from "../user/collection";
 
 const router = express.Router();
 
@@ -90,6 +92,32 @@ router.get(
     res.status(200).json({
       message: "Your course info was found successfully.",
       courses: courses ? courseResponse : null,
+    });
+  }
+);
+
+/**
+ * Get the instructor of a course
+ *
+ * @name GET /api/course/instructor-name?courseId=id
+ *
+ * @param {string} courseId - The course id
+ * @return {UserResponse}
+ *
+ */
+router.get(
+  "/instructor-name",
+  [userValidator.isUserLoggedIn],
+  async (req: Request, res: Response) => {
+    const course = await CourseCollection.findOneByCourseId(
+      req.query.courseId as string
+    );
+    const user = await UserCollection.findOneByUserId(
+      course.instructor._id.toString()
+    );
+    res.status(200).json({
+      message: "Your user info was found successfully.",
+      user: user ? userUtil.constructUserResponse(user) : null,
     });
   }
 );
