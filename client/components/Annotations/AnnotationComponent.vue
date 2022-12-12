@@ -18,9 +18,10 @@
       <div>
         {{ this.formatTime() }}
       </div>
-      <div>
+      <!-- Commented out for now to reflect comment in user testing -->
+      <!-- <div>
         Created: {{ dateCreated }}
-      </div>
+      </div> -->
 
       <div>{{ content }}</div>
 

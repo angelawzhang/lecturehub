@@ -159,6 +159,9 @@ export default {
           throw new Error(res.error);
         }
         this.active = activating;
+
+        // allows deactivate/activate course to be reflected on home page without refresh
+        this.$store.commit("refreshInstructing");
       } catch (e) {}
     },
 
