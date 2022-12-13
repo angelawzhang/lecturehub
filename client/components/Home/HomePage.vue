@@ -53,7 +53,7 @@
             course.name
           }}</router-link>
         </div>
-        <div>Previous Taught Courses:</div>
+        <div>Previously Taught Courses:</div>
         <div v-for="course in $store.state.instructing">
           <router-link v-if="!course.active" :to="'/course/' + course._id">{{
             course.name

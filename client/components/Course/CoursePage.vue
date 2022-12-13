@@ -23,9 +23,17 @@
         <b-button variant="outline-primary" v-else @click="activate"
           >Activate Course</b-button
         >
-        <b-button variant="outline-primary" @click="deleteCourse"
+        <!-- <b-button variant="outline-primary" @click="deleteCourse"
           >Delete Course</b-button
-        >
+        > -->
+        <b-button v-b-modal="'delete-modal'" variant="outline-primary">Delete Course</b-button>
+        <b-modal id="delete-modal" hide-footer ok-title="Yes" cancel-title="No">
+          <div class="d-block text-center">
+            <h4>Delete This Course?</h4>
+          </div>
+          <b-button class="mt-3" id="cancel-action-modal" block @click="$bvModal.hide('delete-modal')">Cancel</b-button>
+          <b-button class="mt-3" id="delete-course-modal" block @click="deleteCourse">Delete</b-button>
+        </b-modal>
       </div>
     </div>
 
@@ -159,6 +167,9 @@ export default {
           throw new Error(res.error);
         }
         this.active = activating;
+
+        // allows deactivate/activate course to be reflected on home page without refresh
+        this.$store.commit("refreshInstructing");
       } catch (e) {}
     },
 
@@ -190,6 +201,7 @@ export default {
         this.$store.commit("refreshInstructing");
         router.push({ name: "Home" });
       } catch (e) {}
+        this.$bvModal.hide("delete-modal");
     },
   },
 
@@ -228,4 +240,13 @@ export default {
   font-size: large;
   color: grey;
 }
+
+#cancel-action-modal {
+  /* background-color: red */
+}
+
+#delete-course-modal {
+  background-color: #d11a2a;
+}
+
 </style>
