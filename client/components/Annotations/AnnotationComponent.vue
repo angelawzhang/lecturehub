@@ -1,26 +1,33 @@
 <template>
   <div class="annotationContainer">
     <div v-if="!editing">
-      <button
-        v-if="this.$store.state.id"
-        @click="switchEditing"
-      >
-        Edit
-      </button>
+      <div class="timeStampButtons">
+        <i class="timeStamp"
+            @click="setTime(((hour*60) + minute)*60 + second)">
+          {{ this.formatTime() }}
+        </i>
+        <div>
+          <button
+            class="btn"
+            v-if="this.$store.state.id"
+            @click="switchEditing"
+          >
+            <span class="editIcon"></span>
+          </button>
 
-      <button
-        v-if="this.$store.state.id"
-        @click="deleteAnnotation"
-      >
-        Delete
-      </button>
-
-      <div>
-        {{ this.formatTime() }}
+          <button
+            class="btn"
+            v-if="this.$store.state.id"
+            @click="deleteAnnotation"
+          >
+          <span class="trashIcon"></span>
+          </button>
+        </div>
       </div>
+<!--       
       <div>
         Created: {{ dateCreated }}
-      </div>
+      </div> -->
 
       <div>{{ content }}</div>
 
@@ -29,7 +36,7 @@
       <div>
         <textarea :value="content" @input="content = $event.target.value" />
       </div>
-      <button @click="submit">Confirm</button>
+      <button class="annotateBtn" @click="submit">Confirm</button>
       <button @click="switchEditing">Cancel</button>
     </div>
   </div>
@@ -45,6 +52,9 @@ export default {
     },
     callback: {
       type: Function,
+    },
+    setTime: {
+      type: Function
     }
   },
   computed: {
@@ -84,7 +94,7 @@ export default {
       let minute = this.formatNumber(this.minute);
       let second = this.formatNumber(this.second);
 
-      return `Timestamp: ${hour}:${minute}:${second}`;
+      return `${hour}:${minute}:${second}`;
     },
     switchEditing() {
       this.editing = !this.editing;
@@ -136,5 +146,40 @@ export default {
   flex-direction: column;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+.btn {
+  padding: 0px;
+  margin-top: -8px;
+}
+
+.editIcon {
+  background:url('../../public/draw.png') no-repeat center;
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+.trashIcon {
+  background:url('../../public/trash.png') no-repeat center;
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+.timeStamp {
+  font-family: 'Lato', sans-serif;
+  font-style: italic;
+  font-size: 16px;
+}
+
+.timeStampButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.annotateBtn {
+  justify-self: right;
 }
 </style>

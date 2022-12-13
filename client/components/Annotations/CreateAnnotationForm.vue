@@ -77,5 +77,11 @@ export default {
 textarea {
   width: 100%;
   height: 100%;
+  resize: none;
+  background: #DCDADA;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 5px;
+  font-size: 14px;
 }
 </style>
