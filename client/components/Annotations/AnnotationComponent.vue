@@ -1,10 +1,11 @@
 <template>
   <div class="annotationContainer">
     <div v-if="!editing">
-
       <div class="timeStampButtons">
-        <i class="timeStamp"
-            @click="setTime(((hour*60) + minute)*60 + second)">
+        <i
+          class="timeStamp"
+          @click="setTime((hour * 60 + minute) * 60 + second)"
+        >
           {{ this.formatTime() }}
         </i>
         <div>
@@ -21,18 +22,17 @@
             v-if="this.$store.state.id"
             @click="deleteAnnotation"
           >
-          <span class="trashIcon"></span>
+            <span class="trashIcon"></span>
           </button>
         </div>
       </div>
-<!--       
+      <!--       
       <div>
 
         Created: {{ dateCreated }}
       </div> -->
 
       <div>{{ content }}</div>
-
     </div>
     <div v-else>
       <div>
@@ -41,7 +41,6 @@
 
       <button class="annotateBtn" @click="submit">Confirm</button>
       <button @click="switchEditing">Cancel</button>
-
     </div>
   </div>
 </template>
@@ -58,8 +57,8 @@ export default {
       type: Function,
     },
     setTime: {
-      type: Function
-    }
+      type: Function,
+    },
   },
   computed: {
     content: {
@@ -69,7 +68,7 @@ export default {
       set(newValue) {
         // Note: we are using destructuring assignment syntax here.
         this.annotationObject.content = newValue;
-      }
+      },
     },
     hour() {
       return this.annotationObject.hour;
@@ -85,7 +84,7 @@ export default {
     },
     id() {
       return this.annotationObject._id;
-    }
+    },
   },
   data() {
     return {
@@ -94,7 +93,7 @@ export default {
   },
   methods: {
     hideModal() {
-        this.$refs[`delete-modal${this.id}`].hide()
+      this.$refs[`delete-modal${this.id}`].hide();
     },
     formatNumber(num) {
       return num < 10 ? "0" + num.toString() : num;
@@ -159,28 +158,27 @@ export default {
   margin-bottom: 8px;
 }
 
-
 .btn {
   padding: 0px;
   margin-top: -8px;
 }
 
 .editIcon {
-  background:url('../../public/draw.png') no-repeat center;
+  background: url("../../public/draw.png") no-repeat center;
   float: left;
   width: 30px;
   height: 30px;
 }
 
 .trashIcon {
-  background:url('../../public/trash.png') no-repeat center;
+  background: url("../../public/trash.png") no-repeat center;
   float: left;
   width: 30px;
   height: 30px;
 }
 
 .timeStamp {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-style: italic;
   font-size: 16px;
 }
@@ -193,9 +191,8 @@ export default {
 
 .annotateBtn {
   justify-self: right;
-
+}
 #delete-annotation-modal {
   background-color: #d11a2a;
-
 }
 </style>
