@@ -5,7 +5,7 @@
       :value="content"
       @input="content = $event.target.value"
     />
-    <button @click="submit">Submit</button>
+    <b-button variant="outline-primary" @click="submit">Submit</b-button>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="annotationContainer">
     <div v-if="!editing">
+
       <div class="timeStampButtons">
         <i class="timeStamp"
             @click="setTime(((hour*60) + minute)*60 + second)">
@@ -26,6 +27,7 @@
       </div>
 <!--       
       <div>
+
         Created: {{ dateCreated }}
       </div> -->
 
@@ -36,8 +38,10 @@
       <div>
         <textarea :value="content" @input="content = $event.target.value" />
       </div>
+
       <button class="annotateBtn" @click="submit">Confirm</button>
       <button @click="switchEditing">Cancel</button>
+
     </div>
   </div>
 </template>
@@ -78,6 +82,9 @@ export default {
     },
     dateCreated() {
       return this.annotationObject.dateCreated;
+    },
+    id() {
+      return this.annotationObject._id;
     }
   },
   data() {
@@ -86,6 +93,9 @@ export default {
     };
   },
   methods: {
+    hideModal() {
+        this.$refs[`delete-modal${this.id}`].hide()
+    },
     formatNumber(num) {
       return num < 10 ? "0" + num.toString() : num;
     },
@@ -106,15 +116,16 @@ export default {
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
       };
-
+      console.log("deleting annotation: ", this.id);
       try {
-        const url = `/api/annotation/${this.annotationObject._id}`;
+        const url = `/api/annotation/${this.id}`;
         const res = await fetch(url, options);
         if (!res.ok) {
           throw new Error(res.error);
         }
         this.callback();
       } catch (e) {}
+      this.$bvModal.hide("delete-modal" + this.id);
     },
     async submit() {
       const options = {
@@ -127,7 +138,7 @@ export default {
       });
 
       try {
-        const url = `/api/annotation/${this.annotationObject._id}`;
+        const url = `/api/annotation/${this.id}`;
         const res = await fetch(url, options);
         if (!res.ok) {
           throw new Error(res.error);
@@ -147,6 +158,7 @@ export default {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
 
 .btn {
   padding: 0px;
@@ -181,5 +193,9 @@ export default {
 
 .annotateBtn {
   justify-self: right;
+
+#delete-annotation-modal {
+  background-color: #d11a2a;
+
 }
 </style>

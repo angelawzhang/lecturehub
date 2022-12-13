@@ -17,7 +17,6 @@
         </router-link>
         <router-link v-else to="/create"> Create </router-link>
         <router-link to="/account"> Profile </router-link>
-        <!-- <router-link v-else to="/login"> Login </router-link> -->
       </div>
       <!-- <section class="alerts">
         <article
@@ -28,9 +27,11 @@
           <p>{{ alert }}</p>
         </article>
       </section> -->
-      <router-link v-if="!$store.state.name" to="/login"> Login </router-link>
+      <div class="loginButton" v-if="!$store.state.name">
+        <router-link v-if="!$store.state.name" to="/login"> Login/New Account </router-link>
+      </div>
 
-      <a v-else v-on:click="logout" href="">Logout</a>
+      <a class="loginButton" v-else v-on:click="logout" href="">Logout</a>
     </div>
   </nav>
 </template>
@@ -80,11 +81,13 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   /* position: relative; */
   height: 100vh;
   /* position: fixed; */
   /* position: sticky; */
   float: left;
+
 }
 
 .title {
@@ -99,7 +102,7 @@ img {
 .navContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 100%;
   text-align: center;
 }
@@ -113,8 +116,10 @@ img {
 .routerContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   gap: 30px;
   align-items: center;
+  margin-top: 35px;
 }
 .left {
   display: flex;
@@ -136,5 +141,9 @@ img {
 
 .alerts {
   width: 25%;
+}
+
+.loginButton {
+  margin-top: 25px;
 }
 </style>
