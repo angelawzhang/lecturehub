@@ -81,8 +81,13 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  height: 100%;
+
+  /* position: relative; */
+  height: 100vh;
+  /* position: fixed; */
+  /* position: sticky; */
+  float: left;
+
 }
 
 .title {
@@ -119,6 +124,7 @@ img {
 .left {
   display: flex;
   align-items: center;
+  /* float: left; */
 }
 
 .right {

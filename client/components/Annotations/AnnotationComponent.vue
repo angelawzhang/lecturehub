@@ -1,40 +1,46 @@
 <template>
   <div class="annotationContainer">
     <div v-if="!editing">
-      <b-button
-        v-if="this.$store.state.id"
-        variant="outline-primary"
-        @click="switchEditing"
-      >
-        Edit
-      </b-button>
+      <div class="timeStampButtons">
+        <i
+          class="timeStamp"
+          @click="setTime((hour * 60 + minute) * 60 + second)"
+        >
+          {{ this.formatTime() }}
+        </i>
+        <div>
+          <button
+            class="btn"
+            v-if="this.$store.state.id"
+            @click="switchEditing"
+          >
+            <span class="editIcon"></span>
+          </button>
 
-      <b-button v-if="this.$store.state.id" v-b-modal="('delete-modal' + this.id)" variant="outline-primary">Delete</b-button>
-      <b-modal :ref="('delete-modal'+ this.id)" :id="('delete-modal'+ this.id)" hide-footer ok-title="Yes" cancel-title="No">
-        <div class="d-block text-center">
-          <h4>Delete This Annotation?</h4>
+          <button
+            class="btn"
+            v-if="this.$store.state.id"
+            @click="deleteAnnotation"
+          >
+            <span class="trashIcon"></span>
+          </button>
         </div>
-        <b-button class="mt-3" id="cancel-action-modal" block @click="hideModal">Cancel</b-button>
-        <b-button class="mt-3" id="delete-annotation-modal" block @click="deleteAnnotation">Delete</b-button>
-      </b-modal>
-
-      <div>
-        {{ this.formatTime() }}
       </div>
-      <!-- Commented out for now to reflect comment in user testing -->
-      <!-- <div>
+      <!--       
+      <div>
+
         Created: {{ dateCreated }}
       </div> -->
 
       <div>{{ content }}</div>
-
     </div>
     <div v-else>
       <div>
         <textarea :value="content" @input="content = $event.target.value" />
       </div>
-      <b-button variant="outline-primary" @click="submit">Confirm</b-button>
-      <b-button variant="outline-primary" @click="switchEditing">Cancel</b-button>
+
+      <button class="annotateBtn" @click="submit">Confirm</button>
+      <button @click="switchEditing">Cancel</button>
     </div>
   </div>
 </template>
@@ -49,7 +55,10 @@ export default {
     },
     callback: {
       type: Function,
-    }
+    },
+    setTime: {
+      type: Function,
+    },
   },
   computed: {
     content: {
@@ -59,7 +68,7 @@ export default {
       set(newValue) {
         // Note: we are using destructuring assignment syntax here.
         this.annotationObject.content = newValue;
-      }
+      },
     },
     hour() {
       return this.annotationObject.hour;
@@ -75,7 +84,7 @@ export default {
     },
     id() {
       return this.annotationObject._id;
-    }
+    },
   },
   data() {
     return {
@@ -84,7 +93,7 @@ export default {
   },
   methods: {
     hideModal() {
-        this.$refs[`delete-modal${this.id}`].hide()
+      this.$refs[`delete-modal${this.id}`].hide();
     },
     formatNumber(num) {
       return num < 10 ? "0" + num.toString() : num;
@@ -94,7 +103,7 @@ export default {
       let minute = this.formatNumber(this.minute);
       let second = this.formatNumber(this.second);
 
-      return `Timestamp: ${hour}:${minute}:${second}`;
+      return `${hour}:${minute}:${second}`;
     },
     switchEditing() {
       this.editing = !this.editing;
@@ -149,6 +158,40 @@ export default {
   margin-bottom: 8px;
 }
 
+.btn {
+  padding: 0px;
+  margin-top: -8px;
+}
+
+.editIcon {
+  background: url("../../public/draw.png") no-repeat center;
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+.trashIcon {
+  background: url("../../public/trash.png") no-repeat center;
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+.timeStamp {
+  font-family: "Lato", sans-serif;
+  font-style: italic;
+  font-size: 16px;
+}
+
+.timeStampButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.annotateBtn {
+  justify-self: right;
+}
 #delete-annotation-modal {
   background-color: #d11a2a;
 }

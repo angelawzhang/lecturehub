@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 * {
   box-sizing: border-box;
 }
@@ -54,6 +54,7 @@ export default {
 body {
   height: 100vh;
   flex-direction: column;
+  /* flex-direction: row; */
   display: flex;
   padding: 0;
   margin: 0;
@@ -73,6 +74,9 @@ main {
 .sideContainer {
   width: 70%;
   padding-left: 10px;
+  height: 100%;
+  overflow: scroll;
+  float: left;
 }
 
 .alerts {
