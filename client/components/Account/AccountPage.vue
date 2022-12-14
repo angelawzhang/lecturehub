@@ -10,7 +10,7 @@
       class="stats fadeMedium"
     ></StudentStatistics>
 
-    <div class="fadeSlow">
+    <div :class="$store.state.student ? 'fadeSlow' : 'fadeMedium'">
       <h3>Account Management</h3>
       <ChangeUsernameForm />
       <ChangePasswordForm />

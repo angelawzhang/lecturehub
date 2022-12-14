@@ -4,7 +4,7 @@
     <div class="fadeFast">Explore and enroll in active classes!</div>
     <br />
     <br />
-    <b-card-group class="fadeMedium" deck>
+    <b-card-group class="fadeMedium wrap" deck>
       <b-card
         v-for="course in $store.state.courses"
         v-if="
@@ -18,7 +18,7 @@
         header-text-variant="black"
         header-class="color"
         body-class="color"
-        style="max-width: 15rem"
+        style="min-width: 15rem; max-width: 15rem; margin-bottom: 30px"
       >
         <template #header>
           <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
@@ -76,5 +76,9 @@ export default {
   background-color: #b3d2d3;
   color: black;
   text-decoration: none;
+}
+
+.wrap {
+  width: 100%;
 }
 </style>
