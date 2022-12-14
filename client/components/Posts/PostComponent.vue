@@ -99,6 +99,7 @@ export default {
 
 .postAuthor {
   font-size: 20px;
+  color: #167380;
 }
 
 .editIcon {

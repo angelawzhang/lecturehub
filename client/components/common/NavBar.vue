@@ -29,7 +29,7 @@
       </section> -->
       <div class="loginButton" v-if="!$store.state.name">
         <router-link class="black" v-if="!$store.state.name" to="/login">
-          Login/New Account
+          Login/Create Account
         </router-link>
       </div>
 
