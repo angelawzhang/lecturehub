@@ -12,7 +12,7 @@
       </div>
       <div>
         <div>Course Description</div>
-        <input
+        <textarea
           :placeholder="'Enter a course description'"
           @input="description = $event.target.value"
         />
@@ -148,5 +148,7 @@ select {
 }
 .button {
   width: 8rem;
+  background-color: #14a3b7;
+  border-color: #14a3b7;
 }
 </style>
