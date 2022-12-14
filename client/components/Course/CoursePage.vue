@@ -65,6 +65,9 @@
         }}
         {{ this.course.year }}
       </h3>
+      <h3 class="course-info" v-if="course.description">
+      Description: {{ this.course.description }} 
+    </h3>
       <hr />
       <p></p>
       <div>
@@ -76,6 +79,7 @@
             >
             <h3 class="course-info">{{ lecture.date.split(",")[0] }}</h3>
           </div>
+
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ export type Course = {
   term: TermLabel;
   year: string;
   instructor: User;
+  description: string;
 };
 
 export enum TermLabel {
@@ -42,6 +43,10 @@ const CourseSchema = new Schema({
   instructor: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  description: {
+    type: String,
     required: true,
   },
 });
