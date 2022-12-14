@@ -68,10 +68,37 @@
       <h3 class="course-info" v-if="course.description">
         Description: {{ this.course.description }}
       </h3>
-      <hr />
+      <hr class="line-break" />
       <p></p>
       <div>
-        <h2>Lectures</h2>
+        <div class="lecture-header">
+          <h2>Lectures</h2>
+          <div v-if="!$store.state.student">
+            <b-button variant="success" @click="addLecture"
+              >Add Lecture</b-button
+            >
+            <!-- <b-modal
+              id="addModal"
+              hide-footer
+              hide-header
+              ok-title="Yes"
+              cancel-title="No"
+            
+              <CreateLectureForm
+                :courseId="$route.params.courseId"
+                :placeholderContent="'Create a new lecture'"
+                :callback="getLectures"
+                ref="addModal"
+              />
+            </b-modal> -->
+            <CreateLectureForm
+              ref="addModal"
+              :courseId="$route.params.courseId"
+              :placeholderContent="'Create a new lecture'"
+            />
+          </div>
+        </div>
+
         <div v-for="lecture in lectures">
           <div class="course-header">
             <router-link class="blue" :to="'/lecture/' + lecture._id">
@@ -87,8 +114,12 @@
 
 <script>
 import router from "@/router.ts";
+import CreateLectureForm from "@/components/Course/CreateLectureForm.vue";
 export default {
   name: "CoursePage",
+  components: {
+    CreateLectureForm,
+  },
   data() {
     return {
       course: {},
@@ -231,6 +262,10 @@ export default {
       } catch (e) {}
       this.$bvModal.hide("delete-modal");
     },
+
+    addLecture() {
+      this.$root.$emit("bv::show::modal", "addModal");
+    },
   },
 
   mounted() {
@@ -254,6 +289,15 @@ export default {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+.lecture-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .course-name {
   font-weight: bold;
 }
@@ -274,5 +318,8 @@ export default {
 
 .button {
   margin-left: 10px;
+}
+.line-break {
+  background-color: #60a7ac;
 }
 </style>
