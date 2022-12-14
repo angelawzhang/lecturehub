@@ -1,60 +1,85 @@
 <template>
-  <div class="course">
-    <div v-if="!loaded">Loading course information...</div>
-    <div v-else class="course-header">
-      <h1 class="course-name">{{ this.course.name }}</h1>
-      <div class="course-button" v-if="$store.state.student">
-        <div v-if="course.active">
-          <b-button variant="outline-primary" v-if="!enrolled" @click="enroll"
-            >Enroll</b-button
-          >
-          <b-button variant="outline-primary" v-else @click="unenroll"
-            >Unenroll</b-button
-          >
+  <div>
+    <div class="course fadeFast">
+      <div v-if="!loaded">Loading course information...</div>
+      <div v-else class="course-header">
+        <h1 class="course-name">{{ this.course.name }}</h1>
+        <div class="course-button" v-if="$store.state.student">
+          <div v-if="course.active">
+            <b-button variant="info" v-if="!enrolled" @click="enroll"
+              >Enroll</b-button
+            >
+            <b-button variant="danger" v-else @click="unenroll"
+              >Unenroll</b-button
+            >
+          </div>
+          <div v-else>
+            This class is inactive and you can no longer enroll or unenroll in
+            it.
+          </div>
         </div>
         <div v-else>
-          This class is inactive and you can no longer enroll or unenroll in it.
-        </div>
-      </div>
-      <div v-else>
-        <b-button variant="outline-primary" v-if="active" @click="deactivate"
-          >Deactivate Course</b-button
-        >
-        <b-button variant="outline-primary" v-else @click="activate"
-          >Activate Course</b-button
-        >
-        <!-- <b-button variant="outline-primary" @click="deleteCourse"
+          <b-button variant="outline-primary" v-if="active" @click="deactivate"
+            >Deactivate Course</b-button
+          >
+          <b-button variant="outline-primary" v-else @click="activate"
+            >Activate Course</b-button
+          >
+          <!-- <b-button variant="outline-primary" @click="deleteCourse"
           >Delete Course</b-button
         > -->
-        <b-button v-b-modal="'delete-modal'" variant="outline-primary">Delete Course</b-button>
-        <b-modal id="delete-modal" hide-footer ok-title="Yes" cancel-title="No">
-          <div class="d-block text-center">
-            <h4>Delete This Course?</h4>
-          </div>
-          <b-button class="mt-3" id="cancel-action-modal" block @click="$bvModal.hide('delete-modal')">Cancel</b-button>
-          <b-button class="mt-3" id="delete-course-modal" block @click="deleteCourse">Delete</b-button>
-        </b-modal>
+          <b-button v-b-modal="'delete-modal'" variant="outline-primary"
+            >Delete Course</b-button
+          >
+          <b-modal
+            id="delete-modal"
+            hide-footer
+            ok-title="Yes"
+            cancel-title="No"
+          >
+            <div class="d-block text-center">
+              <h4>Delete This Course?</h4>
+            </div>
+            <b-button
+              class="mt-3"
+              id="cancel-action-modal"
+              block
+              @click="$bvModal.hide('delete-modal')"
+              >Cancel</b-button
+            >
+            <b-button
+              class="mt-3"
+              id="delete-course-modal"
+              block
+              @click="deleteCourse"
+              >Delete</b-button
+            >
+          </b-modal>
+        </div>
       </div>
-    </div>
 
-    <h3 class="course-info" v-if="course.term">
-      Instructor: {{ this.instructor }} &mdash;
-      {{ this.course.term.charAt(0) + this.course.term.slice(1).toLowerCase() }}
-      {{ this.course.year }}
-    </h3>
-    <h3 class="course-info" v-if="course.description">
+      <h3 class="course-info" v-if="course.term">
+        Instructor: {{ this.instructor }} &mdash;
+        {{
+          this.course.term.charAt(0) + this.course.term.slice(1).toLowerCase()
+        }}
+        {{ this.course.year }}
+      </h3>
+      <h3 class="course-info" v-if="course.description">
       Description: {{ this.course.description }} 
     </h3>
-    <hr />
-    <p></p>
-    <div>
-      <h2>Lectures</h2>
-      <div v-for="lecture in lectures">
-        <div class="course-header">
-          <router-link :to="'/lecture/' + lecture._id">
-            {{ lecture.name }}</router-link
-          >
-          <h3 class="course-info">{{ lecture.date.split(",")[0] }}</h3>
+      <hr />
+      <p></p>
+      <div>
+        <h2>Lectures</h2>
+        <div v-for="lecture in lectures">
+          <div class="course-header">
+            <router-link class="blue" :to="'/lecture/' + lecture._id">
+              {{ lecture.name }}</router-link
+            >
+            <h3 class="course-info">{{ lecture.date.split(",")[0] }}</h3>
+          </div>
+
         </div>
       </div>
     </div>
@@ -102,6 +127,7 @@ export default {
           throw new Error(res.error);
         }
         this.lectures = lectures.lectures;
+        console.log(this.lectures);
       } catch (e) {}
     },
 
@@ -204,7 +230,7 @@ export default {
         this.$store.commit("refreshInstructing");
         router.push({ name: "Home" });
       } catch (e) {}
-        this.$bvModal.hide("delete-modal");
+      this.$bvModal.hide("delete-modal");
     },
   },
 
@@ -218,8 +244,7 @@ export default {
 
 <style scoped>
 .course {
-  padding-top: 30px;
-  padding-left: 40px;
+  padding: 30px;
 }
 .course-header {
   display: flex;
@@ -241,15 +266,10 @@ export default {
 }
 .course-info {
   font-size: large;
-  color: grey;
-}
-
-#cancel-action-modal {
-  /* background-color: red */
+  color: #8eced2;
 }
 
 #delete-course-modal {
   background-color: #d11a2a;
 }
-
 </style>

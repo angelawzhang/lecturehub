@@ -5,7 +5,7 @@
       :value="content"
       @input="content = $event.target.value"
     />
-    <b-button variant="outline-primary" @click="submit">Submit</b-button>
+    <b-button variant="info" @click="submit">Submit</b-button>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
       content: "",
       hour: "",
       minute: "",
-      second: ""
+      second: "",
     };
   },
   props: {
@@ -54,7 +54,7 @@ export default {
         content: this.content,
         hour: hours,
         minute: minutes,
-        second: seconds
+        second: seconds,
       });
 
       try {
@@ -76,12 +76,13 @@ export default {
 <style scoped>
 textarea {
   width: 100%;
-  height: 100%;
+  height: 50px;
   resize: none;
-  background: #DCDADA;
+  background: #dcdada;
   border-radius: 10px;
   box-sizing: border-box;
   padding: 5px;
   font-size: 14px;
+  outline: none;
 }
 </style>

@@ -1,24 +1,34 @@
 <template>
   <div class="postContainer">
-    <div v-if="!editing">
-      <div>{{ this.content }}</div>
-
-      <b-button
-        v-if="this.postObject.authorId === this.$store.state.id"
+    <div class="metadataContainer">
+      <div>
+        <div class="postAuthor">{{ this.postObject.author }}</div>
+        <i class="postDate">{{ this.postObject.dateCreated }}</i>
+      </div>
+      <button
+        class="btn"
+        v-if="
+          this.postObject.authorId === this.$store.state.id && !this.editing
+        "
         @click="switchEditing"
-        variant="outline-primary"
       >
-        Edit
-      </b-button>
+        <span class="editIcon"></span>
+      </button>
+    </div>
+    <div v-if="!editing">
+      <div class="postContent">{{ this.content }}</div>
     </div>
     <div v-else>
       <div>
         <textarea :value="content" @input="content = $event.target.value" />
       </div>
-      <b-button variant="outline-primary" @click="submit">Confirm</b-button>
-      <b-button variant="outline-primary" @click="switchEditing">Cancel</b-button>
+      <b-button class="buttons" variant="outline-primary" @click="submit"
+        >Confirm</b-button
+      >
+      <b-button class="buttons" variant="outline-danger" @click="switchEditing"
+        >Cancel</b-button
+      >
     </div>
-    <div>{{ this.postObject.author }} on {{ this.postObject.dateCreated }}</div>
   </div>
 </template>
 
@@ -73,5 +83,47 @@ export default {
   flex-direction: column;
   margin-top: 8px;
   margin-bottom: 8px;
+  padding-left: 10px;
+  width: 80%;
+}
+
+.metadataContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.postDate {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.postAuthor {
+  font-size: 20px;
+}
+
+.editIcon {
+  background: url("../../public/draw.png") no-repeat center;
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+.btn {
+  padding: 0px;
+  margin-top: -8px;
+  outline: none;
+}
+
+.btn:focus {
+  outline: none;
+}
+.buttons {
+  margin: 4px;
+  height: 40px;
+  width: 100px;
+  border-radius: 15px;
+}
+div {
+  color: black;
 }
 </style>

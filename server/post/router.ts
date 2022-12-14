@@ -47,6 +47,18 @@ router.get(
   }
 );
 
+router.get(
+  "/user",
+  [userValidator.isUserLoggedIn],
+  async (req: Request, res: Response) => {
+    const posts = await PostCollection.findAllByUser(req.session.userId);
+    res.status(200).json({
+      message: "Posts successfully retrieved",
+      posts: posts,
+    });
+  }
+);
+
 /**
  * Create a new post.
  *

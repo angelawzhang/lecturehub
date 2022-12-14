@@ -6,17 +6,17 @@
   <nav>
     <div class="navContainer">
       <div class="titleAndLogo">
-        <h1 class="title">LectureHub</h1>
-        <img src="../../public/logo.svg">
+        <h1 class="title black">LectureHub</h1>
+        <img src="../../public/logo.svg" />
       </div>
-      
+
       <div v-if="$store.state.name" class="routerContainer">
-        <router-link to="/"> Home </router-link>
-        <router-link v-if="$store.state.student" to="/explore">
+        <router-link class="black" to="/"> Home </router-link>
+        <router-link class="black" v-if="$store.state.student" to="/explore">
           Explore
         </router-link>
-        <router-link v-else to="/create"> Create </router-link>
-        <router-link to="/account"> Profile </router-link>
+        <router-link class="black" v-else to="/create"> Create </router-link>
+        <router-link class="black" to="/account"> Profile </router-link>
       </div>
       <!-- <section class="alerts">
         <article
@@ -28,10 +28,12 @@
         </article>
       </section> -->
       <div class="loginButton" v-if="!$store.state.name">
-        <router-link v-if="!$store.state.name" to="/login"> Login/New Account </router-link>
+        <router-link class="black" v-if="!$store.state.name" to="/login">
+          Login/New Account
+        </router-link>
       </div>
 
-      <a class="loginButton" v-else v-on:click="logout" href="">Logout</a>
+      <a class="loginButton black" v-else v-on:click="logout" href="">Logout</a>
     </div>
   </nav>
 </template>
@@ -81,13 +83,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  /* position: relative; */
   height: 100vh;
-  /* position: fixed; */
-  /* position: sticky; */
-  float: left;
-
 }
 
 .title {

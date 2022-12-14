@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="postForm">
     <textarea
       :placeholder="placeholder"
       :value="content"
       @input="content = $event.target.value"
     />
-    <b-button variant="outline-primary" @click="submit">Submit</b-button>
+    <b-button class="button" variant="info" @click="submit">Submit</b-button>
   </div>
 </template>
 
@@ -62,3 +62,28 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+textarea {
+  width: 80%;
+  height: 100%;
+  resize: none;
+  background: #dcdada;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 5px;
+  font-size: 14px;
+  outline: none;
+}
+
+.postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 40px;
+}
+
+.button {
+  width: 80px;
+}
+</style>

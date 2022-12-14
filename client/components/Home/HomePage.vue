@@ -1,69 +1,75 @@
 <template>
-  <div class="home">
-    <div v-if="$store.state.name">
-      <h1 class="homeTitleText">Welcome, {{ this.$store.state.name }}!</h1>
-      <div v-if="$store.state.student">
-        <div class="courseSection">Your Courses:</div>
+  <div>
+    <div class="home">
+      <div v-if="$store.state.name">
+        <h1 class="homeTitleText fadeFast">
+          Welcome, {{ this.$store.state.name }}!
+        </h1>
+        <div v-if="$store.state.student">
+          <div class="courseSection fadeMedium">Your Courses:</div>
 
-        <b-card-group deck>
-          <b-card
-            v-for="course in $store.state.enrolled"
-            v-if="course.active"
-            class="card"
-            border-variant="Secondary"
-            header-tag="header"
-            header-bg-variant="light"
-            header-text-variant="grey"
-            style="max-width: 15rem"
-          >
-            <template #header>
-              <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
-            </template>
-            <router-link :to="'/course/' + course._id">{{
+          <b-card-group deck class="fadeMedium">
+            <b-card
+              v-for="course in $store.state.enrolled"
+              v-if="course.active"
+              class="card"
+              border-variant="Secondary"
+              header-tag="header"
+              header-text-variant="black"
+              header-class="color"
+              body-class="color"
+              style="max-width: 15rem"
+            >
+              <template #header>
+                <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
+              </template>
+              <router-link class="color" :to="'/course/' + course._id">{{
+                course.name
+              }}</router-link>
+            </b-card>
+          </b-card-group>
+
+          <div class="courseSection fadeSlow">Previous Courses:</div>
+          <b-card-group deck class="fadeSlow">
+            <b-card
+              v-for="course in $store.state.enrolled"
+              v-if="!course.active"
+              class="card"
+              border-variant="Secondary"
+              header-tag="header"
+              header-text-variant="black"
+              header-class="color"
+              body-class="color"
+              style="max-width: 15rem"
+            >
+              <template #header>
+                <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
+              </template>
+              <router-link class="color" :to="'/course/' + course._id">{{
+                course.name
+              }}</router-link>
+            </b-card>
+          </b-card-group>
+        </div>
+        <div v-else>
+          <div>Your Taught Courses:</div>
+          <div v-for="course in $store.state.instructing">
+            <router-link v-if="course.active" :to="'/course/' + course._id">{{
               course.name
             }}</router-link>
-          </b-card>
-        </b-card-group>
-
-        <div class="courseSection">Previous Courses:</div>
-        <b-card-group deck>
-          <b-card
-            v-for="course in $store.state.enrolled"
-            v-if="!course.active"
-            class="card"
-            border-variant="Secondary"
-            header-tag="header"
-            header-bg-variant="light"
-            header-text-variant="grey"
-            style="max-width: 15rem"
-          >
-            <template #header>
-              <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
-            </template>
-            <router-link :to="'/course/' + course._id">{{
+          </div>
+          <div>Previously Taught Courses:</div>
+          <div v-for="course in $store.state.instructing">
+            <router-link v-if="!course.active" :to="'/course/' + course._id">{{
               course.name
             }}</router-link>
-          </b-card>
-        </b-card-group>
+          </div>
+        </div>
       </div>
       <div v-else>
-        <div>Your Taught Courses:</div>
-        <div v-for="course in $store.state.instructing">
-          <router-link v-if="course.active" :to="'/course/' + course._id">{{
-            course.name
-          }}</router-link>
-        </div>
-        <div>Previously Taught Courses:</div>
-        <div v-for="course in $store.state.instructing">
-          <router-link v-if="!course.active" :to="'/course/' + course._id">{{
-            course.name
-          }}</router-link>
-        </div>
+        <h1>Welcome to LectureHub!</h1>
+        <p>Login or create an account to continue.</p>
       </div>
-    </div>
-    <div v-else>
-      <h1>Welcome to LectureHub!</h1>
-      <p>Login or create an account to continue.</p>
     </div>
   </div>
 </template>
@@ -76,8 +82,7 @@ export default {
 
 <style scoped>
 .home {
-  padding-top: 30px;
-  padding-left: 40px;
+  padding: 30px;
 }
 
 .homeTitleText {
@@ -87,5 +92,11 @@ export default {
 .courseSection {
   padding-top: 20px;
   padding-bottom: 10px;
+}
+
+.color {
+  background-color: #b3d2d3;
+  color: black;
+  text-decoration: none;
 }
 </style>

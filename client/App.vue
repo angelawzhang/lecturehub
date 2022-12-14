@@ -1,9 +1,7 @@
 <template>
-  <div id="app">
-    <div class="appContainer">
-      <NavBar />
-      <router-view class="sideContainer" />
-    </div>
+  <div class="appContainer">
+    <NavBar />
+    <router-view class="sideContainer" />
   </div>
 </template>
 
@@ -46,7 +44,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap");
 * {
   box-sizing: border-box;
 }
@@ -66,17 +64,21 @@ main {
   padding: 0 5em 5em;
 }
 
+div,
+h3 {
+  color: #8eced2;
+}
 .appContainer {
   display: flex;
   height: 100vh;
+  width: 100vw;
 }
 
 .sideContainer {
-  width: 70%;
-  padding-left: 10px;
   height: 100%;
+  width: 100vw;
   overflow: scroll;
-  float: left;
+  background-color: #2c2d32;
 }
 
 .alerts {
@@ -122,5 +124,84 @@ a:hover {
 
 a:active {
   text-decoration: none;
+}
+
+textarea {
+  width: 80%;
+  height: 100%;
+  resize: none;
+  background: #dcdada;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 5px;
+  font-size: 14px;
+  outline: none;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.black {
+  color: black;
+}
+
+.black:hover {
+  color: black;
+}
+.blue {
+  color: #8eced2;
+}
+
+.blue:hover {
+  color: #719395;
+}
+
+@keyframes fadeFast {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeFast {
+  animation: fadeFast 1s cubic-bezier(0.4, 0, 0.6, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeMedium {
+  0% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeMedium {
+  animation: fadeMedium 1.3s cubic-bezier(0.4, 0, 0.6, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeSlow {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeSlow {
+  animation: fadeSlow 1.9s cubic-bezier(0.4, 0, 0.6, 1);
+  animation-fill-mode: forwards;
 }
 </style>

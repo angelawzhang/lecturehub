@@ -37,6 +37,20 @@ router.get(
   }
 );
 
+router.get(
+  "/user",
+  [userValidator.isUserLoggedIn],
+  async (req: Request, res: Response) => {
+    const annotations = await AnnotationCollection.findAllByAuthor(
+      req.session.userId
+    );
+    res.status(200).json({
+      message: "User annotations successfully retrieved.",
+      annotations: annotations,
+    });
+  }
+);
+
 /**
  * Create a new annotation.
  *
