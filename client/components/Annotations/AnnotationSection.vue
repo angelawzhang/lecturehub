@@ -1,14 +1,18 @@
 <template>
   <div class="annotationSectionContainer">
-    <div class="annotationsTitle">
-        Annotations
-    </div>
+    <div class="annotationsTitle">Annotations</div>
     <div class="annotationsContainer">
-      <div v-for="annotations in this.annotations" class="annotationChainContainer">
-        <AnnotationComponent 
-          :callback="getAnnotations"
-          :annotationObject="annotations"
-          :setTime="setTime" />
+      <div>
+        <div
+          v-for="annotations in this.annotations"
+          class="annotationChainContainer"
+        >
+          <AnnotationComponent
+            :callback="getAnnotations"
+            :annotationObject="annotations"
+            :setTime="setTime"
+          />
+        </div>
       </div>
     </div>
     <CreateAnnotationForm
@@ -44,7 +48,7 @@ export default {
     },
     setTime: {
       type: Function,
-    }
+    },
   },
   methods: {
     async getAnnotations() {
@@ -70,14 +74,16 @@ export default {
 </script>
 
 <style scoped>
+div {
+  color: black;
+}
 .annotationsContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 6px;
   overflow: scroll;
-  overflow: scroll;
-  overflow:scroll;
-  padding-bottom: 5rem;
+  height: 100%;
 }
 
 .annotationsTitle {
@@ -87,26 +93,20 @@ export default {
   width: 100%;
 }
 .annotationChainContainer {
-  /* border-style: solid none none none; */
   border-style: none none solid none;
   border-width: 0.5px;
-  /* border: 0px; */
-  /* border-bottom: 1px; */
   padding: 8px;
 }
 
 .annotationSectionContainer {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin-top: -30px;
-  margin-bottom: -20px;
-  background-color: #8eced2;;
+  background-color: #8eced2;
   padding: 20px;
-  padding-bottom: 70px;
-  border-radius: 15px;
+  border-radius: 25px;
+  width: 100%;
+  height: 100%;
 }
 
 .childAnnotation {

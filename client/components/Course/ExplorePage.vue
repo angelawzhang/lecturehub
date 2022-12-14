@@ -1,23 +1,29 @@
 <template>
   <div class="explore">
-    <h1 class="explore-text">Explore</h1>
-    Explore and enroll in active classes!
+    <h1 class="explore-text fadeFast">Explore</h1>
+    <div class="fadeFast">Explore and enroll in active classes!</div>
     <br />
     <br />
-    <b-card-group deck>
+    <b-card-group class="fadeMedium" deck>
       <b-card
         v-for="course in $store.state.courses"
+        v-if="
+          !$store.state.enrolled
+            .map((course) => course._id)
+            .includes(course._id)
+        "
         class="card"
         border-variant="Secondary"
         header-tag="header"
-        header-bg-variant="light"
-        header-text-variant="grey"
+        header-text-variant="black"
+        header-class="color"
+        body-class="color"
         style="max-width: 15rem"
       >
         <template #header>
           <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
         </template>
-        <router-link :to="'/course/' + course._id">{{
+        <router-link class="color" :to="'/course/' + course._id">{{
           course.name
         }}</router-link>
       </b-card>
@@ -45,6 +51,8 @@ export default {
           throw new Error(res.error);
         }
         this.$store.commit("setCourses", courses.courses);
+        console.log(this.$store.state.courses);
+        console.log(this.$store.state.enrolled);
       } catch (e) {}
     },
   },
@@ -57,11 +65,16 @@ export default {
 
 <style scoped>
 .explore {
-  padding-top: 30px;
-  padding-left: 40px;
+  padding: 30px;
 }
 .explore-text {
   font-weight: bold;
   padding-bottom: 10px;
+}
+
+.color {
+  background-color: #b3d2d3;
+  color: black;
+  text-decoration: none;
 }
 </style>

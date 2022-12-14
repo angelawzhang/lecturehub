@@ -8,22 +8,22 @@
       <div v-for="field in fields" :key="field.id">
         <label :for="field.id">{{ field.label }}:</label>
         <div v-if="field.id === 'isStudent'">
-          <button
+          <b-button
             class="button"
             type="button"
+            :variant="isStudent ? 'info' : 'secondary'"
             @click="toggle"
-            :class="[isStudent ? 'active' : '']"
           >
             Student
-          </button>
-          <button
+          </b-button>
+          <b-button
             class="button"
             type="button"
+            :variant="!isStudent ? 'info' : 'secondary'"
             @click="toggle"
-            :class="[!isStudent ? 'active' : '']"
           >
             Instructor
-          </button>
+          </b-button>
         </div>
         <textarea
           v-if="field.id === 'content'"
@@ -43,9 +43,7 @@
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button type="submit">
-      {{ title }}
-    </button>
+    <b-button class="button" variant="info" @click="submit"> Confirm </b-button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -138,7 +136,6 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -169,6 +166,27 @@ textarea {
   font-family: inherit;
   font-size: inherit;
 }
+
+input {
+  background-color: #dcdada;
+  border-radius: 10px;
+  width: 20rem;
+  height: 2.5rem;
+  padding-left: 10px;
+}
+
+input:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.button {
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
 .button:active {
   background-color: green;
 }

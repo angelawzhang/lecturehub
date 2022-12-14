@@ -1,26 +1,30 @@
 <template>
-  <div class="postSectionContainer">
-    <div class="postsContainer">
-      <div v-for="posts in this.posts" class="postChainContainer">
-        <PostComponent :postObject="posts[0]" />
-        <PostComponent
-          class="childPost"
-          v-for="childPosts in posts.slice(1)"
-          :postObject="childPosts"
-        />
-        <CreatePostForm
-          :callback="getPosts"
-          :lectureId="lectureId"
-          :parentId="posts[0]._id"
-          :placeholder="'Write a follow up'"
-        />
+  <div class="postComponent">
+    <h3>Discussion</h3>
+    <div class="postSectionContainer">
+      <div class="postsContainer">
+        <div v-for="posts in this.posts" class="postChainContainer">
+          <PostComponent :postObject="posts[0]" />
+          <PostComponent
+            class="childPost"
+            v-for="childPosts in posts.slice(1)"
+            :postObject="childPosts"
+          />
+          <CreatePostForm
+            :callback="getPosts"
+            :lectureId="lectureId"
+            :parentId="posts[0]._id"
+            :placeholder="'Write a follow up'"
+          />
+        </div>
       </div>
+      <CreatePostForm
+        class="mainPostForm"
+        :callback="getPosts"
+        :lectureId="lectureId"
+        :placeholder="'Create a new post'"
+      />
     </div>
-    <CreatePostForm
-      :callback="getPosts"
-      :lectureId="lectureId"
-      :placeholder="'Create a new post'"
-    />
   </div>
 </template>
 <script>
@@ -75,7 +79,6 @@ export default {
   overflow: scroll;
 }
 .postChainContainer {
-  border-style: solid;
   padding: 8px;
 }
 
@@ -83,10 +86,27 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 50vh;
+  height: 70vh;
+  background-color: #8eced2;
+  border-radius: 30px;
+  padding-bottom: 20px;
 }
 
 .childPost {
-  margin-left: 25px;
+  margin-left: 40px;
+  border-left-width: 2px;
+  border-color: black;
+  border-left-style: solid;
+}
+
+.postComponent {
+  margin-top: 40px;
+}
+
+.mainPostForm {
+  margin-left: 20px;
+  border-top-style: solid;
+  padding-top: 20px;
+  width: 90%;
 }
 </style>

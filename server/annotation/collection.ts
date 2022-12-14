@@ -57,6 +57,20 @@ class AnnotationCollection {
 
   /**
    *
+   * Find all annotations with a given authorId.
+   *
+   * @param {string} authorId - The ID of the annotation author
+
+   * @returns {Promise<Array<HydratedDocument<Annotation>>>} - An array of matching annotations
+   */
+  static async findAllByAuthor(
+    authorId: Types.ObjectId | string
+  ): Promise<Array<HydratedDocument<Annotation>>> {
+    return AnnotationModel.find({ authorId: authorId });
+  }
+
+  /**
+   *
    * Updates a annotation in the collection
    *
    * @param {string} annotationId - The ID of the annotation to be updated

@@ -1,14 +1,14 @@
 <template>
-  <div class="annotationContainer">
-    <div v-if="!editing">
+  <div
+    class="annotationContainer"
+    @click="setTime((hour * 60 + minute) * 60 + second)"
+  >
+    <div v-if="!editing && !deleting">
       <div class="timeStampButtons">
-        <i
-          class="timeStamp"
-          @click="setTime((hour * 60 + minute) * 60 + second)"
-        >
+        <i class="timeStamp">
           {{ this.formatTime() }}
         </i>
-        <div>
+        <div v-if="!deleting">
           <button
             class="btn"
             v-if="this.$store.state.id"
@@ -20,27 +20,39 @@
           <button
             class="btn"
             v-if="this.$store.state.id"
-            @click="deleteAnnotation"
+            @click="switchDeleting"
           >
             <span class="trashIcon"></span>
           </button>
         </div>
       </div>
-      <!--       
-      <div>
-
-        Created: {{ dateCreated }}
-      </div> -->
 
       <div>{{ content }}</div>
+    </div>
+    <div v-else-if="deleting">
+      <div>Do you want to delete this annotation?</div>
+
+      <b-button
+        class="buttons"
+        variant="outline-primary"
+        @click="deleteAnnotation"
+        >Delete</b-button
+      >
+      <b-button class="buttons" variant="outline-danger" @click="switchDeleting"
+        >Cancel</b-button
+      >
     </div>
     <div v-else>
       <div>
         <textarea :value="content" @input="content = $event.target.value" />
       </div>
 
-      <button class="annotateBtn" @click="submit">Confirm</button>
-      <button @click="switchEditing">Cancel</button>
+      <b-button class="buttons" variant="outline-primary" @click="submit"
+        >Confirm</b-button
+      >
+      <b-button class="buttons" variant="outline-danger" @click="switchEditing"
+        >Cancel</b-button
+      >
     </div>
   </div>
 </template>
@@ -89,9 +101,13 @@ export default {
   data() {
     return {
       editing: false,
+      deleting: false,
     };
   },
   methods: {
+    switchDeleting() {
+      this.deleting = !this.deleting;
+    },
     hideModal() {
       this.$refs[`delete-modal${this.id}`].hide();
     },
@@ -194,5 +210,19 @@ export default {
 }
 #delete-annotation-modal {
   background-color: #d11a2a;
+}
+
+.buttons {
+  margin: 4px;
+  height: 30px;
+  width: 90px;
+  border-radius: 15px;
+}
+.confirmDelete {
+  display: flex;
+  flex-direction: column;
+}
+div {
+  color: black;
 }
 </style>

@@ -49,6 +49,19 @@ class PostCollection {
 
   /**
    *
+   * Find all posts associated with a user with userId.
+   *
+   * @param {string} userId - The ID of the parent lecture
+   * @returns {Promise<Array<HydratedDocument<Post>>>} - An array of matching posts
+   */
+  static async findAllByUser(
+    userId: Types.ObjectId | string
+  ): Promise<Array<HydratedDocument<Post>>> {
+    return PostModel.find({ authorId: userId });
+  }
+
+  /**
+   *
    * Updates a post in the collection
    *
    * @param {string} postId - The ID of the post to be updated
