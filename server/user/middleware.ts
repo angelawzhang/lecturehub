@@ -41,7 +41,7 @@ const isValidUsername = (req: Request, res: Response, next: NextFunction) => {
  * Checks if a name in req.body is valid, that is, it matches the name regex
  */
  const isValidName = (req: Request, res: Response, next: NextFunction) => {
-  const nameRegex = /^\w+$/i;
+  const nameRegex = /^\w+( \w+)*$/i;
   if (!nameRegex.test(req.body.name)) {
     res.status(400).json({
       error: 'Name must be a nonempty alphanumeric string.'
