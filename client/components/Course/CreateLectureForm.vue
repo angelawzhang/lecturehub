@@ -19,7 +19,7 @@
           />
         </div>
         <div>
-          <div class="form-section">Date</div>
+          <div class="form-section">Date (MM-DD-YYYY)</div>
           <input
             :placeholder="'Enter the lecture date'"
             @input="date = $event.target.value"
@@ -36,7 +36,8 @@
         <div class="modal-footer">
           <b-button
             class="button"
-            data-dismiss="addModal"
+            ref="close"
+            data-dismiss="modal"
             variant="success"
             @click="submit"
             >Add</b-button
@@ -66,9 +67,6 @@ export default {
       type: String,
       required: true,
     },
-    callback: {
-      type: Function,
-    },
   },
   methods: {
     async submit() {
@@ -77,6 +75,7 @@ export default {
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin", // Sends express-session credentials with request
       };
+      this.$bvModal.hide("addModal");
       if (this.name === "" || this.date === "" || this.src === "") {
         this.$set(
           this.alerts,
@@ -91,7 +90,6 @@ export default {
             ),
           3000
         );
-        console.log("here");
         console.log(this.alerts);
         return;
       }

@@ -25,9 +25,6 @@
           <b-button variant="success" v-else @click="activate"
             >Activate Course</b-button
           >
-          <!-- <b-button variant="outline-primary" @click="deleteCourse"
-          >Delete Course</b-button
-        > -->
           <b-button class="button" v-b-modal="'delete-modal'" variant="danger"
             >Delete Course</b-button
           >
@@ -77,20 +74,6 @@
             <b-button variant="success" @click="addLecture"
               >Add Lecture</b-button
             >
-            <!-- <b-modal
-              id="addModal"
-              hide-footer
-              hide-header
-              ok-title="Yes"
-              cancel-title="No"
-            
-              <CreateLectureForm
-                :courseId="$route.params.courseId"
-                :placeholderContent="'Create a new lecture'"
-                :callback="getLectures"
-                ref="addModal"
-              />
-            </b-modal> -->
             <CreateLectureForm
               ref="addModal"
               :courseId="$route.params.courseId"
