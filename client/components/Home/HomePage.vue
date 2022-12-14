@@ -52,18 +52,48 @@
           </b-card-group>
         </div>
         <div v-else>
-          <div>Your Taught Courses:</div>
-          <div v-for="course in $store.state.instructing">
-            <router-link v-if="course.active" :to="'/course/' + course._id">{{
-              course.name
-            }}</router-link>
-          </div>
-          <div>Previously Taught Courses:</div>
-          <div v-for="course in $store.state.instructing">
-            <router-link v-if="!course.active" :to="'/course/' + course._id">{{
-              course.name
-            }}</router-link>
-          </div>
+          <div class="courseSection fadeMedium">Your Taught Courses:</div>
+          <b-card-group deck class="fadeMedium">
+            <b-card
+              v-for="course in $store.state.instructing"
+              v-if="course.active"
+              class="card"
+              border-variant="Secondary"
+              header-tag="header"
+              header-text-variant="black"
+              header-class="color"
+              body-class="color"
+              style="max-width: 15rem"
+            >
+              <template #header>
+                <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
+              </template>
+              <router-link class="color" :to="'/course/' + course._id">{{
+                course.name
+              }}</router-link>
+            </b-card>
+          </b-card-group>
+          <div class="courseSection fadeSlow">Previously Taught Courses:</div>
+          <b-card-group deck class="fadeSlow">
+            <b-card
+              v-for="course in $store.state.instructing"
+              v-if="!course.active"
+              class="card"
+              border-variant="Secondary"
+              header-tag="header"
+              header-text-variant="black"
+              header-class="color"
+              body-class="color"
+              style="max-width: 15rem"
+            >
+              <template #header>
+                <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
+              </template>
+              <router-link class="color" :to="'/course/' + course._id">{{
+                course.name
+              }}</router-link>
+            </b-card>
+          </b-card-group>
         </div>
       </div>
       <div v-else>
