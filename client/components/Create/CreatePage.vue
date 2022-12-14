@@ -6,6 +6,11 @@
           :placeholder="'Enter a course name'"
           @input="name = $event.target.value"
         />
+        <div>Course Description</div>
+        <input
+          :placeholder="'Enter a course description'"
+          @input="description = $event.target.value"
+        />
       </div>
       <div>
         Term: {{ term }}
@@ -34,6 +39,7 @@
         term: "FALL",
         year: 2022,
         name: "",
+        description: "",
       };
     },
   
@@ -48,6 +54,7 @@
           name: this.name,
           term: this.term,
           year: this.year,
+          description: this.description,
         });
   
         try {
