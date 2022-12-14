@@ -11,6 +11,7 @@ type CourseResponse = {
   term: string;
   year: string;
   instructor: User;
+  description: string;
 };
 
 /**

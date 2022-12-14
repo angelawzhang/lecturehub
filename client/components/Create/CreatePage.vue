@@ -1,10 +1,24 @@
 <template>
     <div>
       <div>
+        <section class="alerts">
+          <article
+            v-for="(status, alert, index) in alerts"
+            :key="index"
+            :class="status"
+          >
+            <p>{{ alert }}</p>
+          </article>
+        </section>
         <div>Course Name</div>
         <input
           :placeholder="'Enter a course name'"
           @input="name = $event.target.value"
+        />
+        <div>Course Description</div>
+        <input
+          :placeholder="'Enter a course description'"
+          @input="description = $event.target.value"
         />
       </div>
       <div>
@@ -22,6 +36,16 @@
         </select>
       </div>
       <button @click="submit">Confirm</button>
+
+      <!-- <section class="alerts">
+        <article
+          v-for="(status, alert, index) in alerts"
+          :key="index"
+          :class="status"
+        >
+          <p>{{ alert }}</p>
+        </article>
+      </section> -->
     </div>
   </template>
   
@@ -34,6 +58,8 @@
         term: "FALL",
         year: 2022,
         name: "",
+        description: "",
+        alerts: {},
       };
     },
   
@@ -44,10 +70,18 @@
           headers: { "Content-Type": "application/json" },
           credentials: "same-origin", // Sends express-session credentials with request
         };
+        if(this.name === "" || this.description === "") {
+          this.$set(this.alerts, "You must provide a name and description", "error");
+          setTimeout(() => this.$delete(this.alerts, "You must provide a name and description"), 3000);
+          console.log("here");
+          console.log(this.alerts);
+          return;
+        }
         options.body = JSON.stringify({
           name: this.name,
           term: this.term,
           year: this.year,
+          description: this.description,
         });
   
         try {
@@ -70,3 +104,16 @@
   };
   </script>
   
+  <style scoped>
+  .alerts {
+    position: absolute;
+    z-index: 99;
+    bottom: 20;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 10%);
+    width: 100%;
+    text-align: center;
+  }
+  
+  </style>

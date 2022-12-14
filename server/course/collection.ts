@@ -30,7 +30,8 @@ class CourseCollection {
     name: string,
     instructor: User,
     term: TermLabel,
-    year: string
+    year: string,
+    description: string
   ): Promise<HydratedDocument<Course>> {
     const course = new CourseModel({
       name: name,
@@ -39,6 +40,7 @@ class CourseCollection {
       term: term,
       year: year,
       instructor: instructor,
+      description: description
     });
     await course.save(); // Saves course to MongoDB
     return course;

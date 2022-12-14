@@ -128,6 +128,7 @@ router.get(
  * @name POST /api/course
  *
  * @param {string} name - name of the course
+ * @param {string} description - description of the course
  * @param {TermLabel} term - term of the course
  * @param {string} year - year of the course
  * @return {CourseResponse} - the created course
@@ -149,7 +150,8 @@ router.post(
       req.body.name,
       req.session.userId,
       req.body.term,
-      req.body.year
+      req.body.year,
+      req.body.description
     );
     res.status(201).json({
       message: "Your course was created successfully.",

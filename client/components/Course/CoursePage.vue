@@ -42,6 +42,9 @@
       {{ this.course.term.charAt(0) + this.course.term.slice(1).toLowerCase() }}
       {{ this.course.year }}
     </h3>
+    <h3 class="course-info" v-if="course.description">
+      Description: {{ this.course.description }} 
+    </h3>
     <hr />
     <p></p>
     <div>
