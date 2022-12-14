@@ -19,16 +19,16 @@
           </div>
         </div>
         <div v-else>
-          <b-button variant="outline-primary" v-if="active" @click="deactivate"
+          <b-button variant="info" v-if="active" @click="deactivate"
             >Deactivate Course</b-button
           >
-          <b-button variant="outline-primary" v-else @click="activate"
+          <b-button variant="success" v-else @click="activate"
             >Activate Course</b-button
           >
           <!-- <b-button variant="outline-primary" @click="deleteCourse"
           >Delete Course</b-button
         > -->
-          <b-button v-b-modal="'delete-modal'" variant="outline-primary"
+          <b-button class="button" v-b-modal="'delete-modal'" variant="danger"
             >Delete Course</b-button
           >
           <b-modal
@@ -66,8 +66,8 @@
         {{ this.course.year }}
       </h3>
       <h3 class="course-info" v-if="course.description">
-      Description: {{ this.course.description }} 
-    </h3>
+        Description: {{ this.course.description }}
+      </h3>
       <hr />
       <p></p>
       <div>
@@ -79,7 +79,6 @@
             >
             <h3 class="course-info">{{ lecture.date.split(",")[0] }}</h3>
           </div>
-
         </div>
       </div>
     </div>
@@ -271,5 +270,9 @@ export default {
 
 #delete-course-modal {
   background-color: #d11a2a;
+}
+
+.button {
+  margin-left: 10px;
 }
 </style>

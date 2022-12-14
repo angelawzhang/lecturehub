@@ -7,7 +7,15 @@
         </h1>
         <div v-if="$store.state.student">
           <div class="courseSection fadeMedium">Your Courses:</div>
-
+          <i
+            class="fadeSlow"
+            v-if="
+              $store.state.enrolled.filter((course) => course.active).length ===
+              0
+            "
+          >
+            None
+          </i>
           <b-card-group deck class="fadeMedium">
             <b-card
               v-for="course in $store.state.enrolled"
@@ -18,7 +26,7 @@
               header-text-variant="black"
               header-class="color"
               body-class="color"
-              style="max-width: 15rem"
+              style="min-width: 15rem; max-width: 15rem; margin-bottom: 30px"
             >
               <template #header>
                 <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
@@ -30,6 +38,15 @@
           </b-card-group>
 
           <div class="courseSection fadeSlow">Previous Courses:</div>
+          <i
+            class="fadeSlow"
+            v-if="
+              $store.state.enrolled.filter((course) => !course.active)
+                .length === 0
+            "
+          >
+            None
+          </i>
           <b-card-group deck class="fadeSlow">
             <b-card
               v-for="course in $store.state.enrolled"
@@ -40,7 +57,7 @@
               header-text-variant="black"
               header-class="color"
               body-class="color"
-              style="max-width: 15rem"
+              style="min-width: 15rem; max-width: 15rem; margin-bottom: 30px"
             >
               <template #header>
                 <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
@@ -52,18 +69,67 @@
           </b-card-group>
         </div>
         <div v-else>
-          <div>Your Taught Courses:</div>
-          <div v-for="course in $store.state.instructing">
-            <router-link v-if="course.active" :to="'/course/' + course._id">{{
-              course.name
-            }}</router-link>
-          </div>
-          <div>Previously Taught Courses:</div>
-          <div v-for="course in $store.state.instructing">
-            <router-link v-if="!course.active" :to="'/course/' + course._id">{{
-              course.name
-            }}</router-link>
-          </div>
+          <div class="courseSection fadeMedium">Your Taught Courses:</div>
+          <i
+            class="fadeSlow"
+            v-if="
+              $store.state.instructing.filter((course) => course.active)
+                .length === 0
+            "
+          >
+            None
+          </i>
+          <b-card-group deck class="fadeMedium">
+            <b-card
+              v-for="course in $store.state.instructing"
+              v-if="course.active"
+              class="card"
+              border-variant="Secondary"
+              header-tag="header"
+              header-text-variant="black"
+              header-class="color"
+              body-class="color"
+              style="min-width: 15rem; max-width: 15rem; margin-bottom: 30px"
+            >
+              <template #header>
+                <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
+              </template>
+              <router-link class="color" :to="'/course/' + course._id">{{
+                course.name
+              }}</router-link>
+            </b-card>
+          </b-card-group>
+          <div class="courseSection fadeSlow">Previously Taught Courses:</div>
+
+          <i
+            class="fadeSlow"
+            v-if="
+              $store.state.instructing.filter((course) => !course.active)
+                .length === 0
+            "
+          >
+            None
+          </i>
+          <b-card-group deck class="fadeSlow">
+            <b-card
+              v-for="course in $store.state.instructing"
+              v-if="!course.active"
+              class="card"
+              border-variant="Secondary"
+              header-tag="header"
+              header-text-variant="black"
+              header-class="color"
+              body-class="color"
+              style="min-width: 15rem; max-width: 15rem; margin-bottom: 30px"
+            >
+              <template #header>
+                <h6 class="mb-0">{{ course.term }} {{ course.year }}</h6>
+              </template>
+              <router-link class="color" :to="'/course/' + course._id">{{
+                course.name
+              }}</router-link>
+            </b-card>
+          </b-card-group>
         </div>
       </div>
       <div v-else>
